@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ $title ?? 'Dashboard' }} | TailAdmin - Laravel Tailwind CSS Admin Dashboard Template</title>
+    <title>{{ $title ?? 'Dashboard' }} | Lednička </title>
 
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -90,7 +90,8 @@
             }
         })();
     </script>
-    
+
+    @livewireStyles
 </head>
 
 <body
@@ -125,14 +126,14 @@
             @include('layouts.app-header')
             <!-- app header end -->
             <div class="p-4 mx-auto max-w-(--breakpoint-2xl) md:p-6">
-                @yield('content')
+                {{ $slot }}
             </div>
         </div>
 
     </div>
 
+    @stack('scripts')
+    @livewireScripts
 </body>
-
-@stack('scripts')
 
 </html>
