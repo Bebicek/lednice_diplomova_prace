@@ -6,6 +6,7 @@ use App\Livewire\Admin\Commodities\CommodityManager;
 use App\Livewire\Admin\Stock\StockManager;
 use App\Livewire\Admin\Users\UsersManager;
 use App\Livewire\Auth\Login;
+use App\Livewire\Dashboard;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -21,6 +22,17 @@ Route::post('/logout', function () {
     return redirect()->route('login');
 })->name('logout');
 
+// TODO: Have to make all of them or remove them later
+// Client routes WIP
+Route::middleware('auth')->group(function () {
+    Route::get('/dashboard', Dashboard::class)->name('dashboard');
+    Route::get('/catalog', function () {return "todo";})->name('catalog');
+    Route::get('/cart', function () {return "todo";})->name('cart');
+    Route::get('/my-debts', function () {return "todo";})->name('my-debts');
+    Route::get('/profile', function () {return "todo";})->name('profile');
+    Route::get('/lunches', function () {return "todo";})->name('lunches');
+    Route::get('/lunches/create', function () {return "todo";})->name('lunches.create');
+});
 // Admin routes
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/', AdminDashboard::class)->name('dashboard');
