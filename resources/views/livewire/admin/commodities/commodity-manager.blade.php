@@ -161,6 +161,18 @@
                                 @endif
                             </button>
                         </th>
+                        <th scope="col" class="px-6 py-3 font-medium text-gray-500 text-theme-xs dark:text-gray-400 text-start">
+                            <button wire:click="sort('updated_at')" class="inline-flex items-center gap-1.5 hover:text-gray-700 dark:hover:text-gray-200">
+                                Upraveno
+                                @if($sortBy === 'created_at')
+                                    <svg class="fill-current" width="12" height="12" viewBox="0 0 12 12">
+                                        @if($sortDirection === 'asc') <path d="M6 2L10 8H2L6 2Z"/> @else <path d="M6 10L2 4H10L6 10Z"/> @endif
+                                    </svg>
+                                @else
+                                    <svg class="fill-gray-400 dark:fill-gray-600" width="12" height="12" viewBox="0 0 12 12"><path d="M6 2L9 5.5H3L6 2Z"/><path d="M6 10L3 6.5H9L6 10Z"/></svg>
+                                @endif
+                            </button>
+                        </th>
                         <th scope="col" class="pl-6 pr-4 py-3 w-px font-medium text-gray-500 text-theme-xs dark:text-gray-400 text-start">
                             <span class="sr-only">Akce</span>
                         </th>
@@ -222,7 +234,7 @@
                                             {{ $status === 'warning'  ? 'bg-warning-50 text-warning-700 dark:bg-warning-500/15 dark:text-warning-400' : '' }}
                                             {{ $status === 'ok'       ? 'bg-gray-50 text-gray-500 dark:bg-white/5 dark:text-gray-400' : '' }}">
                                             @if($status === 'expired')
-                                            <x-heroicon-o-x-circle class="w-3 h-3" /> Prošlé
+                                            <x-heroicon-o-x-circle class="w-3 h-3" /> Prošlé {{ $commodity->expires_at?->format('d.m.Y') }}
                                         @elseif($status === 'critical')
                                             <x-heroicon-o-exclamation-triangle class="w-3 h-3" /> Za {{ $days }}d
                                         @elseif($status === 'warning')
@@ -234,6 +246,14 @@
                                 @else
                                     <span class="text-theme-sm text-gray-400 dark:text-gray-600">-</span>
                                 @endif
+                            </td>
+                            <td class="px-4 sm:px-6 py-3.5 whitespace-nowrap">
+                                    <span
+                                        class="text-theme-sm text-gray-500 dark:text-gray-400">{{ $commodity->updated_at->format('d. m. Y') }}</span>
+                            </td>
+                            <td class="px-4 sm:px-6 py-3.5 whitespace-nowrap">
+                                    <span
+                                        class="text-theme-sm text-gray-500 dark:text-gray-400">{{ $commodity->created_at->format('d. m. Y') }}</span>
                             </td>
                             <td class="pl-4 sm:pl-6 pr-4 py-3.5 w-px whitespace-nowrap text-right">
                                 @if($confirmingDeleteId === $commodity->id)
