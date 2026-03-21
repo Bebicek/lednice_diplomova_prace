@@ -22,7 +22,7 @@
                 </p>
             </div>
             <div class="flex items-center gap-3">
-                <button wire:click="openNewOperation()"
+                <button wire:click="openNewOperationModal()"
                         class="inline-flex items-center gap-2 rounded-lg bg-brand-500 px-4 py-2.5 text-theme-sm font-medium text-white shadow-theme-xs hover:bg-brand-600">
                     <x-heroicon-o-plus class="h-4 w-4" />
                     Nový pohyb
@@ -251,7 +251,7 @@
                                         </x-slot>
                                         <x-slot name="content">
                                             {{-- receipt --}}
-                                            <button wire:click="openOperation({{ $commodity->id }}, 'receipt')"
+                                            <button wire:click="openOperationModal({{ $commodity->id }}, 'receipt')"
                                                     class="flex w-full items-center gap-2 px-3 py-2 font-medium text-left text-gray-500 rounded-lg text-theme-xs hover:bg-gray-100 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-white/5 dark:hover:text-gray-300">
                                                 <x-heroicon-o-plus class="h-4 w-4 text-green-500" />
                                                 Příjem na sklad
@@ -259,7 +259,7 @@
 
                                             {{-- Transfer --}}
                                             @if($warehouseQty > 0)
-                                                <button wire:click="openOperation({{ $commodity->id }}, 'transfer')"
+                                                <button wire:click="openOperationModal({{ $commodity->id }}, 'transfer')"
                                                         class="flex w-full items-center gap-2 px-3 py-2 font-medium text-left text-gray-500 rounded-lg text-theme-xs hover:bg-gray-100 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-white/5 dark:hover:text-gray-300">
                                                     <x-heroicon-o-arrow-right class="h-4 w-4 text-brand-500" />
                                                     Přesun do lednice
@@ -275,7 +275,7 @@
 
                                             {{-- Loss --}}
                                             @if($totalQty > 0)
-                                                <button wire:click="openOperation({{ $commodity->id }}, 'loss')"
+                                                <button wire:click="openOperationModal({{ $commodity->id }}, 'loss')"
                                                         class="flex w-full items-center gap-2 px-3 py-2 font-medium text-left text-red-500 rounded-lg text-theme-xs hover:bg-red-50 hover:text-red-700 dark:text-red-400 dark:hover:bg-red-500/10 dark:hover:text-red-300">
                                                     <x-heroicon-o-minus class="h-4 w-4" />
                                                     Zaznamenat ztrátu

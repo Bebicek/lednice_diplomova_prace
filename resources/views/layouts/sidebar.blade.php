@@ -211,10 +211,9 @@
         </nav>
 
         <!-- Sidebar Widget -->
-{{--        dont like it maybe later i will add there something but for now no--}}
-{{--        <div x-data x-show="$store.sidebar.isExpanded || $store.sidebar.isHovered || $store.sidebar.isMobileOpen" x-transition class="mt-auto">--}}
-{{--            @include('layouts.sidebar-widget')--}}
-{{--        </div>--}}
+        <div x-data x-show="$store.sidebar.isExpanded || $store.sidebar.isHovered || $store.sidebar.isMobileOpen" x-transition class="mt-auto">
+            @include('layouts.sidebar-widget')
+        </div>
 
     </div>
 </aside>

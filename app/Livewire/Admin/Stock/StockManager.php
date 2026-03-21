@@ -154,16 +154,16 @@ class StockManager extends Component
 
     public function closeModal(): void
     {
-        $this->showOperationModal     = false;
-        $this->isGlobalOperation      = false;
-        $this->operationCommodityId   = null;
+        $this->showOperationModal = false;
+        $this->isGlobalOperation = false;
+        $this->operationCommodityId = null;
         $this->operationCommodityName = '';
-        $this->operationType          = '';
-        $this->operationQuantity      = 1;
-        $this->operationLocation      = 'warehouse';
-        $this->operationMaxQuantity   = 9999;
-        $this->operationWarehouseMax  = 0;
-        $this->operationFridgeMax     = 0;
+        $this->operationType = '';
+        $this->operationQuantity = 1;
+        $this->operationLocation = 'warehouse';
+        $this->operationMaxQuantity = 9999;
+        $this->operationWarehouseMax = 0;
+        $this->operationFridgeMax = 0;
         $this->resetValidation();
     }
 
