@@ -85,12 +85,11 @@
                                 class="px-3 py-2 rounded-lg text-theme-sm font-medium transition-colors {{ request()->routeIs('catalog') ? 'bg-brand-50 text-brand-600 dark:bg-brand-500/10 dark:text-brand-400' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-white/5 dark:hover:text-white' }}">
                                 Katalog
                             </a>
-{{--                TODO: Have to added later because i did not do that for now--}}
-{{--                            <a href="{{ route('cart') }}"--}}
-{{--                                class="inline-flex items-center gap-1 px-3 py-2 rounded-lg text-theme-sm font-medium transition-colors {{ request()->routeIs('cart') ? 'bg-brand-50 text-brand-600 dark:bg-brand-500/10 dark:text-brand-400' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-white/5 dark:hover:text-white' }}">--}}
-{{--                                Košík--}}
-{{--                                <livewire:cart-counter />--}}
-{{--                            </a>--}}
+                            <a href="{{ route('cart') }}"
+                                class="inline-flex items-center gap-1 px-3 py-2 rounded-lg text-theme-sm font-medium transition-colors {{ request()->routeIs('cart') ? 'bg-brand-50 text-brand-600 dark:bg-brand-500/10 dark:text-brand-400' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-white/5 dark:hover:text-white' }}">
+                                Košík
+                                <livewire:cart-counter />
+                            </a>
                             <a href="{{ route('my-debts') }}"
                                 class="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg text-theme-sm font-medium transition-colors {{ request()->routeIs('my-debts') ? 'bg-brand-50 text-brand-600 dark:bg-brand-500/10 dark:text-brand-400' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-white/5 dark:hover:text-white' }}">
                                 Moje dluhy
@@ -219,12 +218,11 @@
                     class="whitespace-nowrap px-3 py-2 rounded-lg text-theme-sm font-medium {{ request()->routeIs('catalog') ? 'bg-brand-50 text-brand-600 dark:bg-brand-500/10 dark:text-brand-400' : 'text-gray-600 dark:text-gray-300' }}">
                     Katalog
                 </a>
-{{--                TODO: Have to added later because i did not do that for now--}}
-{{--                <a href="{{ route('cart') }}"--}}
-{{--                    class="whitespace-nowrap inline-flex items-center gap-1 px-3 py-2 rounded-lg text-theme-sm font-medium {{ request()->routeIs('cart') ? 'bg-brand-50 text-brand-600 dark:bg-brand-500/10 dark:text-brand-400' : 'text-gray-600 dark:text-gray-300' }}">--}}
-{{--                    Košík--}}
-{{--                    <livewire:cart-counter />--}}
-{{--                </a>--}}
+                <a href="{{ route('cart') }}"
+                    class="whitespace-nowrap inline-flex items-center gap-1 px-3 py-2 rounded-lg text-theme-sm font-medium {{ request()->routeIs('cart') ? 'bg-brand-50 text-brand-600 dark:bg-brand-500/10 dark:text-brand-400' : 'text-gray-600 dark:text-gray-300' }}">
+                    Košík
+                    <livewire:cart-counter />
+                </a>
                 <a href="{{ route('my-debts') }}"
                     class="whitespace-nowrap inline-flex items-center gap-1.5 px-3 py-2 rounded-lg text-theme-sm font-medium {{ request()->routeIs('my-debts') ? 'bg-brand-50 text-brand-600 dark:bg-brand-500/10 dark:text-brand-400' : 'text-gray-600 dark:text-gray-300' }}">
                     Moje dluhy

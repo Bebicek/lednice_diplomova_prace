@@ -6,6 +6,7 @@ use App\Livewire\Admin\Commodities\CommodityManager;
 use App\Livewire\Admin\Stock\StockManager;
 use App\Livewire\Admin\Users\UsersManager;
 use App\Livewire\Auth\Login;
+use App\Livewire\Cart;
 use App\Livewire\Catalog;
 use App\Livewire\Dashboard;
 use Illuminate\Support\Facades\Auth;
@@ -28,7 +29,7 @@ Route::post('/logout', function () {
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', Dashboard::class)->name('dashboard');
     Route::get('/catalog', Catalog::class)->name('catalog');
-    Route::get('/cart', function () {return "todo";})->name('cart');
+    Route::get('/cart', Cart::class)->name('cart');
     Route::get('/my-debts', function () {return "todo";})->name('my-debts');
     Route::get('/profile', function () {return "todo";})->name('profile');
     Route::get('/lunches', function () {return "todo";})->name('lunches');
