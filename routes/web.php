@@ -1,5 +1,6 @@
 <?php
 
+use App\Livewire\Admin\Categories\CategoryManager;
 use App\Livewire\Admin\Commodities\CommodityManager;
 use App\Livewire\Auth\Login;
 use Illuminate\Support\Facades\Auth;
@@ -26,6 +27,11 @@ Route::get('/admin', \App\Livewire\Admin\Dashboard::class)
 // Commodity Manager
 Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
     Route::get('/commodities', CommodityManager::class)->name('admin.commodities');
+});
+
+// Category Manager
+Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
+    Route::get('/categories', CategoryManager::class)->name('admin.categories');
 });
 
 
