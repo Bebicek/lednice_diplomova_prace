@@ -79,6 +79,7 @@ class MenuHelper
                 'path' => '/admin/lunches',
             ],
             [
+                // TODO: Maybe delete it later in project and let it be only in a profile icon to click on settings idk
                 'icon' => 'settings',
                 'name' => 'Nastavení',
                 'path' => '/admin/settings',
