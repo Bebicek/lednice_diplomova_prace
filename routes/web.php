@@ -1,5 +1,6 @@
 <?php
 
+use App\Livewire\Admin\Commodities\CommodityManager;
 use App\Livewire\Auth\Login;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -16,10 +17,16 @@ Route::post('/logout', function () {
     return redirect()->route('login');
 })->name('logout');
 
+// Admin Routes
 // Dashboard
 Route::get('/admin', \App\Livewire\Admin\Dashboard::class)
     ->middleware('auth')
     ->name('admin.dashboard');
+
+// Commodity Manager
+Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
+    Route::get('/commodities', CommodityManager::class)->name('admin.commodities');
+});
 
 
 
