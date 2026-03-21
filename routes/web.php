@@ -3,6 +3,7 @@
 use App\Livewire\Admin\AdminDashboard;
 use App\Livewire\Admin\Categories\CategoryManager;
 use App\Livewire\Admin\Commodities\CommodityManager;
+use App\Livewire\Admin\Stock\StockManager;
 use App\Livewire\Admin\Users\UsersManager;
 use App\Livewire\Auth\Login;
 use Illuminate\Support\Facades\Auth;
@@ -32,6 +33,9 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
 
     Route::get('/users', UsersManager::class)
         ->name('users');
+
+    Route::get('/stock', StockManager::class)
+        ->name('stock');
 });
 
 
