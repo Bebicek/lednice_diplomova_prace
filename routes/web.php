@@ -1,7 +1,9 @@
 <?php
 
+use App\Livewire\Admin\AdminDashboard;
 use App\Livewire\Admin\Categories\CategoryManager;
 use App\Livewire\Admin\Commodities\CommodityManager;
+use App\Livewire\Admin\Users\UsersManager;
 use App\Livewire\Auth\Login;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -18,26 +20,19 @@ Route::post('/logout', function () {
     return redirect()->route('login');
 })->name('logout');
 
-// Admin Routes
-// Dashboard
-Route::get('/admin', \App\Livewire\Admin\Dashboard::class)
-    ->middleware('auth')
-    ->name('admin.dashboard');
+// Admin routes
+Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
+    Route::get('/', AdminDashboard::class)->name('dashboard');
 
-// Commodity Manager
-Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
-    Route::get('/commodities', CommodityManager::class)->name('admin.commodities');
+    Route::get('/commodities', CommodityManager::class)
+        ->name('commodities');
+
+    Route::get('/categories', CategoryManager::class)
+        ->name('categories');
+
+    Route::get('/users', UsersManager::class)
+        ->name('users');
 });
-
-// Category Manager
-Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
-    Route::get('/categories', CategoryManager::class)->name('admin.categories');
-});
-
-
-
-
-
 
 
 

@@ -6,7 +6,7 @@ use Livewire\Attributes\Layout;
 use Livewire\Component;
 
 #[Layout('layouts.app')]
-class Dashboard extends Component
+class AdminDashboard extends Component
 {
     public function render()
     {
