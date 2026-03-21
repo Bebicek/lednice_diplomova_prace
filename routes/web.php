@@ -9,6 +9,7 @@ use App\Livewire\Auth\Login;
 use App\Livewire\Cart;
 use App\Livewire\Catalog;
 use App\Livewire\Dashboard;
+use App\Livewire\MyDebts;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -30,7 +31,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/dashboard', Dashboard::class)->name('dashboard');
     Route::get('/catalog', Catalog::class)->name('catalog');
     Route::get('/cart', Cart::class)->name('cart');
-    Route::get('/my-debts', function () {return "todo";})->name('my-debts');
+    Route::get('/my-debts', MyDebts::class)->name('my-debts');
     Route::get('/profile', function () {return "todo";})->name('profile');
     Route::get('/lunches', function () {return "todo";})->name('lunches');
     Route::get('/lunches/create', function () {return "todo";})->name('lunches.create');
