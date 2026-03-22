@@ -1,5 +1,6 @@
 <?php
 
+use App\Livewire\Admin\Accounts\AccountsManager;
 use App\Livewire\Admin\AdminDashboard;
 use App\Livewire\Admin\Categories\CategoryManager;
 use App\Livewire\Admin\Commodities\CommodityManager;
@@ -40,18 +41,16 @@ Route::middleware('auth')->group(function () {
 // Admin routes
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/', AdminDashboard::class)->name('dashboard');
-
     Route::get('/commodities', CommodityManager::class)
         ->name('commodities');
-
     Route::get('/categories', CategoryManager::class)
         ->name('categories');
-
     Route::get('/users', UsersManager::class)
         ->name('users');
-
     Route::get('/stock', StockManager::class)
         ->name('stock');
+    Route::get('/accounts', AccountsManager::class)
+        ->name('accounts');
 });
 
 
