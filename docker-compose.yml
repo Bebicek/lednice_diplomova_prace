@@ -1,0 +1,56 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: lednicka-app
+    restart: unless-stopped
+    volumes:
+      - storage-data:/var/www/html/storage/app
+    environment:
+      - APP_ENV=production
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - lednicka
+
+  nginx:
+    image: nginx:alpine
+    container_name: lednicka-nginx
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - app
+    networks:
+      - lednicka
+
+  db:
+    image: postgres:16-alpine
+    container_name: lednicka-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${DB_DATABASE:-lednicka}
+      POSTGRES_USER: ${DB_USERNAME:-lednicka}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-secret}
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USERNAME:-lednicka}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - lednicka
+
+volumes:
+  postgres-data:
+  storage-data:
+
+networks:
+  lednicka:
+    driver: bridge
