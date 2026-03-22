@@ -304,7 +304,7 @@ class StockManager extends Component
             ->orderBy($sortColumn, $this->sortDirection)
             ->get();
 
-        // We apply a condition filter to the collection (the stock is eager-loaded, without N+1)
+        // condition filter to the collection (the stock is eager loaded, without N+1)
         if ($this->filterStatus) {
             $commodities = match ($this->filterStatus) {
                 'in_warehouse' => $commodities->filter(fn($c) => $c->warehouse_quantity > 0),

@@ -18,7 +18,7 @@
             <div>
                 <h3 class="text-lg font-semibold text-gray-800 dark:text-white/90">Sklad</h3>
                 <p class="mt-1 text-theme-sm text-gray-500 dark:text-gray-400">
-                    Správa skladových zásob – příjem, přesuny a odpisy
+                    Správa skladových zásob - příjem, přesuny a odpisy
                 </p>
             </div>
             <div class="flex items-center gap-3">
@@ -241,7 +241,7 @@
                                         </span>
                                 </td>
 
-                                {{-- Actions – dropdown --}}
+                                {{-- Actions dropdown --}}
                                 <td class="px-4 sm:px-6 py-3.5 whitespace-nowrap text-right">
                                     <x-common.table-dropdown>
                                         <x-slot name="button">
