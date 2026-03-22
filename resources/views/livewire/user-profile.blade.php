@@ -86,7 +86,6 @@
                 <div>
                     <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
                         Číslo účtu
-                        <span class="ml-1 text-xs font-normal text-gray-400">např. 123456-1234567890 nebo 1234567890</span>
                     </label>
                     <input
                         type="text"
@@ -102,7 +101,6 @@
                 <div>
                     <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
                         Kód banky
-                        <span class="ml-1 text-xs font-normal text-gray-400">4 číslice, např. 0800 (ČS), 0100 (KB)</span>
                     </label>
                     <input
                         type="text"
