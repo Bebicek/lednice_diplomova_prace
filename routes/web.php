@@ -11,6 +11,8 @@ use App\Livewire\Auth\Login;
 use App\Livewire\Cart;
 use App\Livewire\Catalog;
 use App\Livewire\Dashboard;
+use App\Livewire\LunchCreate;
+use App\Livewire\Lunches;
 use App\Livewire\MyDebts;
 use App\Livewire\UserProfile;
 use Illuminate\Support\Facades\Auth;
@@ -36,9 +38,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/cart', Cart::class)->name('cart');
     Route::get('/my-debts', MyDebts::class)->name('my-debts');
     Route::get('/profile', UserProfile::class)->name('profile');
-    Route::get('/lunches', function () {return "todo";})->name('lunches');
-    Route::get('/lunches/create', function () {return "todo";})->name('lunches.create');
+    Route::get('/lunches', Lunches::class)->name('lunches');
+    Route::get('/lunches/create', LunchCreate::class)->name('lunches.create');
 });
+
 // Admin routes
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/', AdminDashboard::class)->name('dashboard');
