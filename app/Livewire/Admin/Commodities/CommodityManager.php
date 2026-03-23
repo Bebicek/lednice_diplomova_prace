@@ -209,7 +209,7 @@ class CommodityManager extends Component
         Commodity::whereIn('id', $this->selected)->delete();
         $this->selected = [];
 
-        session()->flash('success', "Smazáno {$count} produtků");
+        $this->dispatch('toast-success', message: "Smazáno {$count} produktů");
     }
 
     public function render()

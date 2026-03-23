@@ -1,15 +1,6 @@
 <div>
     <x-common.page-breadcrumb :pageTitle="'Účty a dluhy'" />
 
-    {{-- Toast --}}
-    <div x-data="{ show: false, message: '', type: 'success' }"
-         @toast-success.window="show = true; message = $event.detail.message; type = 'success'; setTimeout(() => show = false, 3000)"
-         @toast-error.window="show = true; message = $event.detail.message; type = 'error'; setTimeout(() => show = false, 3000)">
-        <div x-show="show" x-transition class="fixed top-5 right-5 z-50 rounded-lg px-4 py-3 text-white shadow-lg"
-             :class="type === 'success' ? 'bg-success-500' : 'bg-error-500'">
-            <span x-text="message"></span>
-        </div>
-    </div>
 
     {{-- Stats cards --}}
     <div class="mb-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">

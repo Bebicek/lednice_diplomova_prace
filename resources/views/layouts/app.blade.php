@@ -132,6 +132,29 @@
 
     </div>
 
+    {{-- Toast notifications --}}
+    <div class="fixed bottom-4 right-4 z-[999999] space-y-2"
+        x-data="{
+            toasts: [],
+            addToast(type, message) {
+                const id = Date.now();
+                this.toasts.push({ id, type, message });
+                setTimeout(() => this.removeToast(id), 4000);
+            },
+            removeToast(id) {
+                this.toasts = this.toasts.filter(t => t.id !== id);
+            }
+        }"
+        @toast-success.window="addToast('success', $event.detail.message || $event.detail)"
+        @toast-error.window="addToast('error', $event.detail.message || $event.detail)">
+        <template x-for="toast in toasts" :key="toast.id">
+            <div class="flex items-center gap-2 px-4 py-3 rounded-lg shadow-lg text-white text-theme-sm"
+                :class="toast.type === 'success' ? 'bg-success-500' : 'bg-error-500'">
+                <span x-text="toast.message"></span>
+            </div>
+        </template>
+    </div>
+
     @stack('scripts')
     @livewireScripts
 </body>

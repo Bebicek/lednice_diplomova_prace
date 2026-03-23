@@ -1,15 +1,6 @@
 <div x-data="{ tab: 'overview' }">
     <x-common.page-breadcrumb :pageTitle="'Správa skladu'" />
 
-    {{-- Toast notifications --}}
-    <div x-data="{ show: false, message: '', type: 'success' }"
-         @toast-success.window="show = true; message = $event.detail.message; type = 'success'; setTimeout(() => show = false, 3500)"
-         @toast-error.window="show = true; message = $event.detail.message; type = 'error'; setTimeout(() => show = false, 4000)">
-        <div x-show="show" x-transition class="fixed top-5 right-5 z-50 rounded-lg px-4 py-3 text-white shadow-lg"
-             :class="type === 'success' ? 'bg-success-500' : 'bg-error-500'">
-            <span x-text="message"></span>
-        </div>
-    </div>
 
     <div class="rounded-2xl border border-gray-200 bg-white pt-4 dark:border-gray-800 dark:bg-white/[0.03]">
 
