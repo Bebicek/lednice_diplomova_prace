@@ -14,12 +14,40 @@
     <script>
         (function() {
             const savedTheme = localStorage.getItem('theme');
-            const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-            const theme = savedTheme || systemTheme;
-            if (theme === 'dark') {
+            if (savedTheme === 'dark') {
                 document.documentElement.classList.add('dark');
+                document.body.classList.add('dark', 'bg-gray-900');
             }
         })();
+    </script>
+
+    <!-- Theme store -->
+    <script>
+        document.addEventListener('alpine:init', () => {
+            Alpine.store('theme', {
+                init() {
+                    this.theme = localStorage.getItem('theme') || 'light';
+                    this.updateTheme();
+                },
+                theme: 'light',
+                toggle() {
+                    this.theme = this.theme === 'light' ? 'dark' : 'light';
+                    localStorage.setItem('theme', this.theme);
+                    this.updateTheme();
+                },
+                updateTheme() {
+                    const html = document.documentElement;
+                    const body = document.body;
+                    if (this.theme === 'dark') {
+                        html.classList.add('dark');
+                        body.classList.add('dark', 'bg-gray-900');
+                    } else {
+                        html.classList.remove('dark');
+                        body.classList.remove('dark', 'bg-gray-900');
+                    }
+                }
+            });
+        });
     </script>
 </head>
 
