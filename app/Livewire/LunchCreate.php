@@ -17,14 +17,14 @@ class LunchCreate extends Component
     public int $step = 1;
 
     public string $restaurantName = '';
-    public string $description    = '';
+    public string $description = '';
 
     // [['user_id' => int, 'name' => string, 'items' => [['name' => string, 'price' => int]]]]
-    public array    $participants    = [];
-    public ?int     $selectedUserId  = null;
+    public array $participants = [];
+    public ?int $selectedUserId = null;
 
     public string $deliveryCostKc = '0';
-    public string $splitMethod    = 'by_price'; // 'equal' | 'by_price'
+    public string $splitMethod = 'by_price'; // 'equal' | 'by_price'
 
     public function mount(): void
     {

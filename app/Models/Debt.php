@@ -25,9 +25,9 @@ class Debt extends Model
     protected function casts(): array
     {
         return [
-            'amount'      => 'integer',
-            'is_paid'     => 'boolean',
-            'paid_at'     => 'datetime',
+            'amount' => 'integer',
+            'is_paid' => 'boolean',
+            'paid_at' => 'datetime',
             'is_accepted' => 'boolean',
             'accepted_at' => 'datetime',
         ];

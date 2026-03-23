@@ -217,7 +217,7 @@ class StockManager extends Component
     {
         return match ($this->operationType) {
             'transfer' => $this->operationWarehouseMax,
-            'loss'     => $this->operationLocation === 'warehouse'
+            'loss' => $this->operationLocation === 'warehouse'
                 ? $this->operationWarehouseMax
                 : $this->operationFridgeMax,
             default => 9999,
@@ -295,7 +295,7 @@ class StockManager extends Component
     public function render(): View
     {
         $allowedSorts = ['name', 'category_id'];
-        $sortColumn   = in_array($this->sortBy, $allowedSorts) ? $this->sortBy : 'name';
+        $sortColumn = in_array($this->sortBy, $allowedSorts) ? $this->sortBy : 'name';
 
         $commodities = Commodity::query()
             ->with(['category', 'stock'])

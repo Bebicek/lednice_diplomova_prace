@@ -22,7 +22,7 @@ class LunchParticipant extends Model
     protected function casts(): array
     {
         return [
-            'amount'      => 'integer',
+            'amount' => 'integer',
             'is_approved' => 'boolean',
             'approved_at' => 'datetime',
         ];

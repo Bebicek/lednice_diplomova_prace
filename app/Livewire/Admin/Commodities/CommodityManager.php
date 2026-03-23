@@ -122,13 +122,13 @@ class CommodityManager extends Component
         $this->validate();
 
         $data = [
-            'name'       => $this->name,
-            'price'      => (int) round((float) str_replace(',', '.', $this->price) * 100),
-            'description'=> $this->description ?: null,
-            'barcode'    => $this->barcode ?: null,
+            'name' => $this->name,
+            'price' => (int) round((float) str_replace(',', '.', $this->price) * 100),
+            'description' => $this->description ?: null,
+            'barcode' => $this->barcode ?: null,
             'expires_at' => $this->expiresAt ?: null,
-            'category_id'=> $this->category_id,
-            'is_active'  => $this->is_active,
+            'category_id' => $this->category_id,
+            'is_active' => $this->is_active,
         ];
 
         // Handle image upload

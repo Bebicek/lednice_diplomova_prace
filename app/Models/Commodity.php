@@ -26,8 +26,8 @@ class Commodity extends Model
     protected function casts(): array
     {
         return [
-            'price'      => 'integer',
-            'is_active'  => 'boolean',
+            'price' => 'integer',
+            'is_active' => 'boolean',
             'expires_at' => 'date',
         ];
     }
