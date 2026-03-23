@@ -30,8 +30,8 @@
     </div>
 
     <div class="z-50 fixed" x-ref="content">
-        <div x-show="isOpen" x-cloak class="p-2 bg-white border border-gray-200 rounded-2xl shadow-lg dark:border-gray-800 dark:bg-gray-dark w-max">
-            <div class="space-y-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
+        <div x-show="isOpen" x-cloak class="p-2 bg-white border border-gray-200 rounded-2xl shadow-lg dark:border-gray-800 dark:bg-gray-dark min-w-32 w-max">
+            <div @click="isOpen = false" class="space-y-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
                 {{ $content }}
             </div>
         </div>
