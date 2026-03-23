@@ -1,12 +1,6 @@
 <div x-data="{ activeTab: '{{ $pendingDebts->count() > 0 ? 'pending' : 'mine' }}' }">
     <x-common.page-breadcrumb :pageTitle="'Obědy'" />
 
-    @if(session('success'))
-        <div class="mb-4 rounded-lg bg-success-50 p-4 text-success-700 dark:bg-success-500/10 dark:text-success-400">
-            {{ session('success') }}
-        </div>
-    @endif
-
     {{-- Header action --}}
     <div class="mb-6 flex items-center justify-between">
         <div class="flex items-center gap-4">
