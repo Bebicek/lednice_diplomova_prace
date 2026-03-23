@@ -11,6 +11,7 @@
             </div>
             <div class="flex items-center gap-3">
                 @if(count($selected) > 0)
+{{--                TODO: REPLACE THE CONFIRM WITH SOMETHING BETTER OR STYLISH BECAUASE NOT IT LOOKS TERRIBLE HOW IT IS    --}}
                     <button wire:click="bulkDelete" wire:confirm="Opravdu chcete smazat {{ count($selected) }} vybraných produktů?"
                             class="inline-flex items-center gap-2 rounded-lg bg-error-500 px-4 py-2.5 text-theme-sm font-medium text-white shadow-theme-xs hover:bg-error-600">
                         <x-heroicon-o-trash class="h-4 w-4" />

@@ -4,60 +4,10 @@
     {{-- Stats cards --}}
     <div class="grid grid-cols-2 gap-4 xl:grid-cols-4 md:gap-6 mb-6">
 
-        {{-- Expired --}}
-        <div class="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03] md:p-6">
-            <div class="flex items-center justify-between">
-                <div>
-                    <span class="text-sm text-gray-500 dark:text-gray-400">Prošlé</span>
-                    <h4 class="mt-2 text-2xl font-bold text-gray-800 dark:text-white/90">{{ $stats['expired'] }}</h4>
-                </div>
-                <div class="flex items-center justify-center w-12 h-12 rounded-xl
-                    {{ $stats['expired'] > 0 ? 'bg-error-50 text-error-500 dark:bg-error-500/10' : 'bg-gray-100 text-gray-400 dark:bg-white/5' }}">
-                    <x-heroicon-o-x-circle class="w-6 h-6" />
-                </div>
-            </div>
-        </div>
-
-        {{-- Critical (≤ 3 days) --}}
-        <div class="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03] md:p-6">
-            <div class="flex items-center justify-between">
-                <div>
-                    <span class="text-sm text-gray-500 dark:text-gray-400">Vyprší do 3 dní</span>
-                    <h4 class="mt-2 text-2xl font-bold text-gray-800 dark:text-white/90">{{ $stats['critical'] }}</h4>
-                </div>
-                <div class="flex items-center justify-center w-12 h-12 rounded-xl
-                    {{ $stats['critical'] > 0 ? 'bg-error-50 text-error-500 dark:bg-error-500/10' : 'bg-gray-100 text-gray-400 dark:bg-white/5' }}">
-                    <x-heroicon-o-exclamation-triangle class="w-6 h-6" />
-                </div>
-            </div>
-        </div>
-
-        {{-- Warning (≤ 7 days) --}}
-        <div class="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03] md:p-6">
-            <div class="flex items-center justify-between">
-                <div>
-                    <span class="text-sm text-gray-500 dark:text-gray-400">Vyprší do 7 dní</span>
-                    <h4 class="mt-2 text-2xl font-bold text-gray-800 dark:text-white/90">{{ $stats['warning'] }}</h4>
-                </div>
-                <div class="flex items-center justify-center w-12 h-12 rounded-xl
-                    {{ $stats['warning'] > 0 ? 'bg-warning-50 text-warning-500 dark:bg-warning-500/10' : 'bg-gray-100 text-gray-400 dark:bg-white/5' }}">
-                    <x-heroicon-o-clock class="w-6 h-6" />
-                </div>
-            </div>
-        </div>
-
-        {{-- No date --}}
-        <div class="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03] md:p-6">
-            <div class="flex items-center justify-between">
-                <div>
-                    <span class="text-sm text-gray-500 dark:text-gray-400">Bez data</span>
-                    <h4 class="mt-2 text-2xl font-bold text-gray-800 dark:text-white/90">{{ $stats['none'] }}</h4>
-                </div>
-                <div class="flex items-center justify-center w-12 h-12 rounded-xl bg-gray-100 text-gray-400 dark:bg-white/5">
-                    <x-heroicon-o-calendar-days class="w-6 h-6" />
-                </div>
-            </div>
-        </div>
+        <x-common.stat-card label="Prošlé" :value="$stats['expired']" color="error" icon="x-circle" />
+        <x-common.stat-card label="Vyprší do 3 dní" :value="$stats['critical']" color="error" icon="exclamation-triangle" />
+        <x-common.stat-card label="Vyprší do 7 dní" :value="$stats['warning']" color="warning" icon="clock" />
+        <x-common.stat-card label="Bez data" :value="$stats['none']" icon="question-mark-circle" />
     </div>
 
     {{-- Product table --}}
@@ -194,6 +144,7 @@
                                 </button>
                                 @if($commodity->expires_at)
                                     <button wire:click="clearExpiry({{ $commodity->id }})"
+{{--                                                    TODO: REPLACE THE CONFIRM WITH SOMETHING BETTER OR STYLISH BECAUASE NOT IT LOOKS TERRIBLE HOW IT IS--}}
                                             wire:confirm="Odebrat datum spotřeby z tohoto produktu?"
                                             class="flex items-center justify-center w-7 h-7 rounded-lg text-gray-400 hover:bg-error-50 hover:text-error-500 dark:hover:bg-error-500/10 transition-colors"
                                             title="Odebrat datum">

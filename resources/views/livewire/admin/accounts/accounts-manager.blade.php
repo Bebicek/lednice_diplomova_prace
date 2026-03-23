@@ -6,44 +6,39 @@
     <div class="mb-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
 
         {{-- Total unpaid --}}
-        <div class="rounded-2xl border border-error-200 bg-error-50 p-5 dark:border-error-500/20 dark:bg-error-500/10">
-            <p class="text-theme-xs font-medium uppercase tracking-wide text-error-600 dark:text-error-400">Nezaplaceno celkem</p>
-            <p class="mt-1 text-2xl font-bold text-error-700 dark:text-error-300">
-                {{ number_format($stats['totalUnpaid'] / 100, 2, ',', ' ') }} Kč
-            </p>
-            <p class="mt-0.5 text-theme-xs text-error-500 dark:text-error-400">
-                {{ $stats['countDebtors'] }} {{ $stats['countDebtors'] === 1 ? 'dlužník' : ($stats['countDebtors'] < 5 ? 'dlužníci' : 'dlužníků') }}
-            </p>
-        </div>
+        <x-common.stat-card
+            label="Nezaplaceno celkem"
+            :value="number_format($stats['totalUnpaid'] / 100, 2, ',', ' ') . ' Kč'"
+            :subtitle="$stats['countDebtors'] . ' ' . ($stats['countDebtors'] === 1 ? 'dlužník' : ($stats['countDebtors'] < 5 ? 'dlužníci' : 'dlužníků'))"
+            color="error"
+            icon="exclamation-circle"
+        />
 
         {{-- Total paid --}}
-        <div class="rounded-2xl border border-success-200 bg-success-50 p-5 dark:border-success-500/20 dark:bg-success-500/10">
-            <p class="text-theme-xs font-medium uppercase tracking-wide text-success-600 dark:text-success-400">Zaplaceno celkem</p>
-            <p class="mt-1 text-2xl font-bold text-success-700 dark:text-success-300">
-                {{ number_format($stats['totalPaid'] / 100, 2, ',', ' ') }} Kč
-            </p>
-            <p class="mt-0.5 text-theme-xs text-success-500 dark:text-success-400">historicky</p>
-        </div>
+        <x-common.stat-card
+            label="Zaplaceno celkem"
+            :value="number_format($stats['totalPaid'] / 100, 2, ',', ' ') . ' Kč'"
+            subtitle="historicky"
+            color="success"
+            icon="check-circle"
+        />
 
         {{-- Total pair groups --}}
-        <div class="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03]">
-            <p class="text-theme-xs font-medium uppercase tracking-wide text-gray-500 dark:text-gray-400">Celkem záznamů</p>
-            <p class="mt-1 text-2xl font-bold text-gray-800 dark:text-white/90">{{ $stats['countAll'] }}</p>
-            <p class="mt-0.5 text-theme-xs text-gray-400">v databázi</p>
-        </div>
+        <x-common.stat-card
+            label="Celkem záznamů"
+            :value="$stats['countAll']"
+            subtitle="v databázi"
+            icon="document-text"
+        />
 
         {{-- Average unpaid debt --}}
-        <div class="rounded-2xl border border-warning-200 bg-warning-50 p-5 dark:border-warning-500/20 dark:bg-warning-500/10">
-            <p class="text-theme-xs font-medium uppercase tracking-wide text-warning-600 dark:text-warning-400">Průměrný dluh</p>
-            <p class="mt-1 text-2xl font-bold text-warning-700 dark:text-warning-300">
-                @if($stats['countDebtors'] > 0)
-                    {{ number_format(($stats['totalUnpaid'] / $stats['countDebtors']) / 100, 2, ',', ' ') }} Kč
-                @else
-                    -
-                @endif
-            </p>
-            <p class="mt-0.5 text-theme-xs text-warning-500 dark:text-warning-400">na dlužníka</p>
-        </div>
+        <x-common.stat-card
+            label="Průměrný dluh"
+            :value="$stats['countDebtors'] > 0 ? number_format(($stats['totalUnpaid'] / $stats['countDebtors']) / 100, 2, ',', ' ') . ' Kč' : '-'"
+            subtitle="na dlužníka"
+            color="warning"
+            icon="calculator"
+        />
     </div>
 
     {{-- Debts table --}}
@@ -184,6 +179,7 @@
                                         </button>
                                         @if($group->unpaid_count > 0)
                                             <button wire:click="markAllAsPaid({{ $group->user_id }}, {{ $group->creditor_id ?? 'null' }})"
+{{--                                                    TODO: REPLACE THE CONFIRM WITH SOMETHING BETTER OR STYLISH BECAUASE NOT IT LOOKS TERRIBLE HOW IT IS--}}
                                                     wire:confirm="Označit všechny nezaplacené dluhy tohoto páru jako zaplacené?"
                                                     class="flex w-full px-3 py-2 text-left text-theme-xs font-medium text-success-600 rounded-lg hover:bg-success-50 hover:text-success-700 dark:text-success-400 dark:hover:bg-success-500/10">
                                                 <x-heroicon-o-check-circle class="w-3.5 h-3.5 mr-2 mt-px" />
@@ -407,6 +403,7 @@
                     @php $unpaidInDetail = $detailDebts->where('is_paid', false)->count(); @endphp
                     @if($unpaidInDetail > 0)
                         <button wire:click="markAllAsPaid({{ $detailUserId }}, {{ $detailCreditorId ?? 'null' }})"
+{{--                    TODO: REPLACE THE CONFIRM WITH SOMETHING BETTER OR STYLISH BECAUASE NOT IT LOOKS TERRIBLE HOW IT IS--}}
                                 wire:confirm="Označit všechny nezaplacené dluhy jako zaplacené?"
                                 class="inline-flex items-center gap-2 rounded-lg bg-success-500 px-4 py-2.5 text-theme-sm font-medium text-white hover:bg-success-600">
                             <x-heroicon-o-check-circle class="w-4 h-4" />
