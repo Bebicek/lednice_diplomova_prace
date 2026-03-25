@@ -84,82 +84,14 @@
                                 </svg>
                             </div>
                         </th>
-                        <th scope="col" class="px-6 py-3 font-medium text-gray-500 text-theme-xs dark:text-gray-400 text-start">
-                            <button wire:click="sort('name')" class="inline-flex items-center gap-1.5 hover:text-gray-700 dark:hover:text-gray-200">
-                                Produkt
-                                @if($sortBy === 'name')
-                                    <svg class="fill-current" width="12" height="12" viewBox="0 0 12 12">
-                                        @if($sortDirection === 'asc') <path d="M6 2L10 8H2L6 2Z"/> @else <path d="M6 10L2 4H10L6 10Z"/> @endif
-                                    </svg>
-                                @else
-                                    <svg class="fill-gray-400 dark:fill-gray-600" width="12" height="12" viewBox="0 0 12 12"><path d="M6 2L9 5.5H3L6 2Z"/><path d="M6 10L3 6.5H9L6 10Z"/></svg>
-                                @endif
-                            </button>
-                        </th>
-                        <th scope="col" class="px-6 py-3 font-medium text-gray-500 text-theme-xs dark:text-gray-400 text-start">
-                            <button wire:click="sort('category_id')" class="inline-flex items-center gap-1.5 hover:text-gray-700 dark:hover:text-gray-200">
-                                Kategorie
-                                @if($sortBy === 'category_id')
-                                    <svg class="fill-current" width="12" height="12" viewBox="0 0 12 12">
-                                        @if($sortDirection === 'asc') <path d="M6 2L10 8H2L6 2Z"/> @else <path d="M6 10L2 4H10L6 10Z"/> @endif
-                                    </svg>
-                                @else
-                                    <svg class="fill-gray-400 dark:fill-gray-600" width="12" height="12" viewBox="0 0 12 12"><path d="M6 2L9 5.5H3L6 2Z"/><path d="M6 10L3 6.5H9L6 10Z"/></svg>
-                                @endif
-                            </button>
-                        </th>
-                        <th scope="col" class="px-6 py-3 font-medium text-gray-500 text-theme-xs dark:text-gray-400 text-start">
-                            <button wire:click="sort('price')" class="inline-flex items-center gap-1.5 hover:text-gray-700 dark:hover:text-gray-200">
-                                Cena
-                                @if($sortBy === 'price')
-                                    <svg class="fill-current" width="12" height="12" viewBox="0 0 12 12">
-                                        @if($sortDirection === 'asc') <path d="M6 2L10 8H2L6 2Z"/> @else <path d="M6 10L2 4H10L6 10Z"/> @endif
-                                    </svg>
-                                @else
-                                    <svg class="fill-gray-400 dark:fill-gray-600" width="12" height="12" viewBox="0 0 12 12"><path d="M6 2L9 5.5H3L6 2Z"/><path d="M6 10L3 6.5H9L6 10Z"/></svg>
-                                @endif
-                            </button>
-                        </th>
-                        <th scope="col" class="px-6 py-3 font-medium text-gray-500 text-theme-xs dark:text-gray-400 text-start">
-                            <button wire:click="sort('is_active')" class="inline-flex items-center gap-1.5 hover:text-gray-700 dark:hover:text-gray-200">
-                                Stav
-                                @if($sortBy === 'is_active')
-                                    <svg class="fill-current" width="12" height="12" viewBox="0 0 12 12">
-                                        @if($sortDirection === 'asc') <path d="M6 2L10 8H2L6 2Z"/> @else <path d="M6 10L2 4H10L6 10Z"/> @endif
-                                    </svg>
-                                @else
-                                    <svg class="fill-gray-400 dark:fill-gray-600" width="12" height="12" viewBox="0 0 12 12"><path d="M6 2L9 5.5H3L6 2Z"/><path d="M6 10L3 6.5H9L6 10Z"/></svg>
-                                @endif
-                            </button>
-                        </th>
-                        <th scope="col" class="px-6 py-3 font-medium text-gray-500 text-theme-xs dark:text-gray-400 text-start">
-                            Spotřeba
-                        </th>
-                        <th scope="col" class="px-6 py-3 font-medium text-gray-500 text-theme-xs dark:text-gray-400 text-start">
-                            <button wire:click="sort('created_at')" class="inline-flex items-center gap-1.5 hover:text-gray-700 dark:hover:text-gray-200">
-                                Přidáno
-                                @if($sortBy === 'created_at')
-                                    <svg class="fill-current" width="12" height="12" viewBox="0 0 12 12">
-                                        @if($sortDirection === 'asc') <path d="M6 2L10 8H2L6 2Z"/> @else <path d="M6 10L2 4H10L6 10Z"/> @endif
-                                    </svg>
-                                @else
-                                    <svg class="fill-gray-400 dark:fill-gray-600" width="12" height="12" viewBox="0 0 12 12"><path d="M6 2L9 5.5H3L6 2Z"/><path d="M6 10L3 6.5H9L6 10Z"/></svg>
-                                @endif
-                            </button>
-                        </th>
-                        <th scope="col" class="px-6 py-3 font-medium text-gray-500 text-theme-xs dark:text-gray-400 text-start">
-                            <button wire:click="sort('updated_at')" class="inline-flex items-center gap-1.5 hover:text-gray-700 dark:hover:text-gray-200">
-                                Upraveno
-                                @if($sortBy === 'created_at')
-                                    <svg class="fill-current" width="12" height="12" viewBox="0 0 12 12">
-                                        @if($sortDirection === 'asc') <path d="M6 2L10 8H2L6 2Z"/> @else <path d="M6 10L2 4H10L6 10Z"/> @endif
-                                    </svg>
-                                @else
-                                    <svg class="fill-gray-400 dark:fill-gray-600" width="12" height="12" viewBox="0 0 12 12"><path d="M6 2L9 5.5H3L6 2Z"/><path d="M6 10L3 6.5H9L6 10Z"/></svg>
-                                @endif
-                            </button>
-                        </th>
-                        <th scope="col" class="pl-6 pr-4 py-3 w-px font-medium text-gray-500 text-theme-xs dark:text-gray-400 text-start">
+                        <x-datagrid.sort-header field="name" label="Produkt" :sort-by="$sortBy" :sort-direction="$sortDirection" />
+                        <x-datagrid.sort-header field="category_id" label="Kategorie" :sort-by="$sortBy" :sort-direction="$sortDirection" />
+                        <x-datagrid.sort-header field="price" label="Cena" :sort-by="$sortBy" :sort-direction="$sortDirection" />
+                        <x-datagrid.sort-header field="is_active" label="Stav" :sort-by="$sortBy" :sort-direction="$sortDirection" />
+                        <th class="px-6 py-3 font-medium text-gray-500 text-theme-xs dark:text-gray-400 text-start">Spotřeba</th>
+                        <x-datagrid.sort-header field="created_at" label="Přidáno" :sort-by="$sortBy" :sort-direction="$sortDirection" />
+                        <x-datagrid.sort-header field="updated_at" label="Upraveno" :sort-by="$sortBy" :sort-direction="$sortDirection" />
+                        <th class="pl-6 pr-4 py-3 w-px font-medium text-gray-500 text-theme-xs dark:text-gray-400 text-start">
                             <span class="sr-only">Akce</span>
                         </th>
                     </tr>

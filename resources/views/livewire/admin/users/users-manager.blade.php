@@ -69,82 +69,14 @@
                 <table class="min-w-full">
                     <thead>
                     <tr class="border-gray-200 border-y dark:border-gray-700">
-                        <th scope="col" class="px-6 py-3 font-medium text-gray-500 text-theme-xs dark:text-gray-400 text-start">
-                            <button wire:click="sort('name')" class="inline-flex items-center gap-1.5 hover:text-gray-700 dark:hover:text-gray-200">
-                                Jméno
-                                @if($sortBy === 'name')
-                                    <svg class="fill-current" width="12" height="12" viewBox="0 0 12 12">
-                                        @if($sortDirection === 'asc') <path d="M6 2L10 8H2L6 2Z"/> @else <path d="M6 10L2 4H10L6 10Z"/> @endif
-                                    </svg>
-                                @else
-                                    <svg class="fill-gray-400 dark:fill-gray-600" width="12" height="12" viewBox="0 0 12 12"><path d="M6 2L9 5.5H3L6 2Z"/><path d="M6 10L3 6.5H9L6 10Z"/></svg>
-                                @endif
-                            </button>
-                        </th>
-                        <th scope="col" class="px-6 py-3 font-medium text-gray-500 text-theme-xs dark:text-gray-400 text-start">
-                            <button wire:click="sort('email')" class="inline-flex items-center gap-1.5 hover:text-gray-700 dark:hover:text-gray-200">
-                                Email
-                                @if($sortBy === 'email')
-                                    <svg class="fill-current" width="12" height="12" viewBox="0 0 12 12">
-                                        @if($sortDirection === 'asc') <path d="M6 2L10 8H2L6 2Z"/> @else <path d="M6 10L2 4H10L6 10Z"/> @endif
-                                    </svg>
-                                @else
-                                    <svg class="fill-gray-400 dark:fill-gray-600" width="12" height="12" viewBox="0 0 12 12"><path d="M6 2L9 5.5H3L6 2Z"/><path d="M6 10L3 6.5H9L6 10Z"/></svg>
-                                @endif
-                            </button>
-                        </th>
-                        <th scope="col" class="px-6 py-3 font-medium text-gray-500 text-theme-xs dark:text-gray-400 text-start">
-                            Role
-                        </th>
-                        <th scope="col" class="px-6 py-3 font-medium text-gray-500 text-theme-xs dark:text-gray-400 text-start">
-                            <button wire:click="sort('bank_number')" class="inline-flex items-center gap-1.5 hover:text-gray-700 dark:hover:text-gray-200">
-                                Číslo účtu
-                                @if($sortBy === 'bank_number')
-                                    <svg class="fill-current" width="12" height="12" viewBox="0 0 12 12">
-                                        @if($sortDirection === 'asc') <path d="M6 2L10 8H2L6 2Z"/> @else <path d="M6 10L2 4H10L6 10Z"/> @endif
-                                    </svg>
-                                @else
-                                    <svg class="fill-gray-400 dark:fill-gray-600" width="12" height="12" viewBox="0 0 12 12"><path d="M6 2L9 5.5H3L6 2Z"/><path d="M6 10L3 6.5H9L6 10Z"/></svg>
-                                @endif
-                            </button>
-                        </th>
-                        <th scope="col" class="px-6 py-3 font-medium text-gray-500 text-theme-xs dark:text-gray-400 text-start">
-                            <button wire:click="sort('bank_code')" class="inline-flex items-center gap-1.5 hover:text-gray-700 dark:hover:text-gray-200">
-                                Číslo banky
-                                @if($sortBy === 'bank_code')
-                                    <svg class="fill-current" width="12" height="12" viewBox="0 0 12 12">
-                                        @if($sortDirection === 'asc') <path d="M6 2L10 8H2L6 2Z"/> @else <path d="M6 10L2 4H10L6 10Z"/> @endif
-                                    </svg>
-                                @else
-                                    <svg class="fill-gray-400 dark:fill-gray-600" width="12" height="12" viewBox="0 0 12 12"><path d="M6 2L9 5.5H3L6 2Z"/><path d="M6 10L3 6.5H9L6 10Z"/></svg>
-                                @endif
-                            </button>
-                        </th>
-                        <th scope="col" class="px-6 py-3 font-medium text-gray-500 text-theme-xs dark:text-gray-400 text-start">
-                            <button wire:click="sort('enabled')" class="inline-flex items-center gap-1.5 hover:text-gray-700 dark:hover:text-gray-200">
-                                Stav
-                                @if($sortBy === 'enabled')
-                                    <svg class="fill-current" width="12" height="12" viewBox="0 0 12 12">
-                                        @if($sortDirection === 'asc') <path d="M6 2L10 8H2L6 2Z"/> @else <path d="M6 10L2 4H10L6 10Z"/> @endif
-                                    </svg>
-                                @else
-                                    <svg class="fill-gray-400 dark:fill-gray-600" width="12" height="12" viewBox="0 0 12 12"><path d="M6 2L9 5.5H3L6 2Z"/><path d="M6 10L3 6.5H9L6 10Z"/></svg>
-                                @endif
-                            </button>
-                        </th>
-                        <th scope="col" class="px-6 py-3 font-medium text-gray-500 text-theme-xs dark:text-gray-400 text-start">
-                            <button wire:click="sort('created_at')" class="inline-flex items-center gap-1.5 hover:text-gray-700 dark:hover:text-gray-200">
-                                Přidáno
-                                @if($sortBy === 'created_at')
-                                    <svg class="fill-current" width="12" height="12" viewBox="0 0 12 12">
-                                        @if($sortDirection === 'asc') <path d="M6 2L10 8H2L6 2Z"/> @else <path d="M6 10L2 4H10L6 10Z"/> @endif
-                                    </svg>
-                                @else
-                                    <svg class="fill-gray-400 dark:fill-gray-600" width="12" height="12" viewBox="0 0 12 12"><path d="M6 2L9 5.5H3L6 2Z"/><path d="M6 10L3 6.5H9L6 10Z"/></svg>
-                                @endif
-                            </button>
-                        </th>
-                        <th scope="col" class="px-6 py-3 font-medium text-gray-500 text-theme-xs dark:text-gray-400 text-start">
+                        <x-datagrid.sort-header field="name" label="Jméno" :sort-by="$sortBy" :sort-direction="$sortDirection" />
+                        <x-datagrid.sort-header field="email" label="Email" :sort-by="$sortBy" :sort-direction="$sortDirection" />
+                        <th class="px-6 py-3 font-medium text-gray-500 text-theme-xs dark:text-gray-400 text-start">Role</th>
+                        <x-datagrid.sort-header field="bank_number" label="Číslo účtu" :sort-by="$sortBy" :sort-direction="$sortDirection" />
+                        <x-datagrid.sort-header field="bank_code" label="Číslo banky" :sort-by="$sortBy" :sort-direction="$sortDirection" />
+                        <x-datagrid.sort-header field="enabled" label="Stav" :sort-by="$sortBy" :sort-direction="$sortDirection" />
+                        <x-datagrid.sort-header field="created_at" label="Přidáno" :sort-by="$sortBy" :sort-direction="$sortDirection" />
+                        <th class="px-6 py-3 font-medium text-gray-500 text-theme-xs dark:text-gray-400 text-start">
                             <span class="sr-only">Akce</span>
                         </th>
                     </tr>

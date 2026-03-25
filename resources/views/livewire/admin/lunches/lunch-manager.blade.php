@@ -45,90 +45,13 @@
                 <table class="min-w-full">
                     <thead>
                     <tr class="border-gray-200 border-y dark:border-gray-700">
-                        <th class="px-5 py-3 text-left text-theme-xs font-medium text-gray-500 dark:text-gray-400">
-                            <button wire:click="sort('restaurant_name')" class="inline-flex items-center gap-1 hover:text-gray-700 dark:hover:text-gray-200">
-                                Restaurace
-                                @if($sortBy === 'restaurant_name')
-                                    <svg class="fill-current" width="12" height="12" viewBox="0 0 12 12">
-                                        @if($sortDirection === 'asc') <path d="M6 2L10 8H2L6 2Z"/> @else <path d="M6 10L2 4H10L6 10Z"/> @endif
-                                    </svg>
-                                @else
-                                    <svg class="fill-current opacity-30" width="12" height="12" viewBox="0 0 12 12"><path d="M6 2L10 8H2L6 2Z"/></svg>
-                                @endif
-                            </button>
-                        </th>
-                        <th class="px-5 py-3 text-left text-theme-xs font-medium text-gray-500 dark:text-gray-400">
-                            <button wire:click="sort('organizer_name')" class="inline-flex items-center gap-1 hover:text-gray-700 dark:hover:text-gray-200">
-                                Organizátor
-                                @if($sortBy === 'organizer_name')
-                                    <svg class="fill-current" width="12" height="12" viewBox="0 0 12 12">
-                                        @if($sortDirection === 'asc') <path d="M6 2L10 8H2L6 2Z"/> @else <path d="M6 10L2 4H10L6 10Z"/> @endif
-                                    </svg>
-                                @else
-                                    <svg class="fill-current opacity-30" width="12" height="12" viewBox="0 0 12 12"><path d="M6 2L10 8H2L6 2Z"/></svg>
-                                @endif
-                            </button>
-                        </th>
-                        <th class="px-5 py-3 text-center text-theme-xs font-medium text-gray-500 dark:text-gray-400">
-                            <button wire:click="sort('participants_count')" class="inline-flex items-center gap-1 hover:text-gray-700 dark:hover:text-gray-200">
-                                Účastníci
-                                @if($sortBy === 'participants_count')
-                                    <svg class="fill-current" width="12" height="12" viewBox="0 0 12 12">
-                                        @if($sortDirection === 'asc') <path d="M6 2L10 8H2L6 2Z"/> @else <path d="M6 10L2 4H10L6 10Z"/> @endif
-                                    </svg>
-                                @else
-                                    <svg class="fill-current opacity-30" width="12" height="12" viewBox="0 0 12 12"><path d="M6 2L10 8H2L6 2Z"/></svg>
-                                @endif
-                            </button>
-                        </th>
-                        <th class="px-5 py-3 text-right text-theme-xs font-medium text-gray-500 dark:text-gray-400">
-                            <button wire:click="sort('total_amount')" class="inline-flex items-center gap-1 hover:text-gray-700 dark:hover:text-gray-200 ml-auto">
-                                Částka
-                                @if($sortBy === 'total_amount')
-                                    <svg class="fill-current" width="12" height="12" viewBox="0 0 12 12">
-                                        @if($sortDirection === 'asc') <path d="M6 2L10 8H2L6 2Z"/> @else <path d="M6 10L2 4H10L6 10Z"/> @endif
-                                    </svg>
-                                @else
-                                    <svg class="fill-current opacity-30" width="12" height="12" viewBox="0 0 12 12"><path d="M6 2L10 8H2L6 2Z"/></svg>
-                                @endif
-                            </button>
-                        </th>
-                        <th class="px-5 py-3 text-left text-theme-xs font-medium text-gray-500 dark:text-gray-400">
-                            <button wire:click="sort('split_method')" class="inline-flex items-center gap-1 hover:text-gray-700 dark:hover:text-gray-200">
-                                Rozdělení
-                                @if($sortBy === 'split_method')
-                                    <svg class="fill-current" width="12" height="12" viewBox="0 0 12 12">
-                                        @if($sortDirection === 'asc') <path d="M6 2L10 8H2L6 2Z"/> @else <path d="M6 10L2 4H10L6 10Z"/> @endif
-                                    </svg>
-                                @else
-                                    <svg class="fill-current opacity-30" width="12" height="12" viewBox="0 0 12 12"><path d="M6 2L10 8H2L6 2Z"/></svg>
-                                @endif
-                            </button>
-                        </th>
-                        <th class="px-5 py-3 text-left text-theme-xs font-medium text-gray-500 dark:text-gray-400">
-                            <button wire:click="sort('is_settled')" class="inline-flex items-center gap-1 hover:text-gray-700 dark:hover:text-gray-200">
-                                Stav
-                                @if($sortBy === 'is_settled')
-                                    <svg class="fill-current" width="12" height="12" viewBox="0 0 12 12">
-                                        @if($sortDirection === 'asc') <path d="M6 2L10 8H2L6 2Z"/> @else <path d="M6 10L2 4H10L6 10Z"/> @endif
-                                    </svg>
-                                @else
-                                    <svg class="fill-current opacity-30" width="12" height="12" viewBox="0 0 12 12"><path d="M6 2L10 8H2L6 2Z"/></svg>
-                                @endif
-                            </button>
-                        </th>
-                        <th class="px-5 py-3 text-left text-theme-xs font-medium text-gray-500 dark:text-gray-400">
-                            <button wire:click="sort('created_at')" class="inline-flex items-center gap-1 hover:text-gray-700 dark:hover:text-gray-200">
-                                Datum
-                                @if($sortBy === 'created_at')
-                                    <svg class="fill-current" width="12" height="12" viewBox="0 0 12 12">
-                                        @if($sortDirection === 'asc') <path d="M6 2L10 8H2L6 2Z"/> @else <path d="M6 10L2 4H10L6 10Z"/> @endif
-                                    </svg>
-                                @else
-                                    <svg class="fill-current opacity-30" width="12" height="12" viewBox="0 0 12 12"><path d="M6 2L10 8H2L6 2Z"/></svg>
-                                @endif
-                            </button>
-                        </th>
+                        <x-datagrid.sort-header field="restaurant_name"   label="Restaurace"  :sort-by="$sortBy" :sort-direction="$sortDirection" />
+                        <x-datagrid.sort-header field="organizer_name"   label="Organizátor" :sort-by="$sortBy" :sort-direction="$sortDirection" />
+                        <x-datagrid.sort-header field="participants_count" label="Účastníci"  :sort-by="$sortBy" :sort-direction="$sortDirection" />
+                        <x-datagrid.sort-header field="total_amount"     label="Částka"      :sort-by="$sortBy" :sort-direction="$sortDirection" />
+                        <x-datagrid.sort-header field="split_method"     label="Rozdělení"   :sort-by="$sortBy" :sort-direction="$sortDirection" />
+                        <x-datagrid.sort-header field="is_settled"       label="Stav"        :sort-by="$sortBy" :sort-direction="$sortDirection" />
+                        <x-datagrid.sort-header field="created_at"       label="Datum"       :sort-by="$sortBy" :sort-direction="$sortDirection" />
                         <th class="px-5 py-3 w-px"><span class="sr-only">Akce</span></th>
                     </tr>
                     </thead>
