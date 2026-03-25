@@ -45,13 +45,13 @@
                 <table class="min-w-full">
                     <thead>
                     <tr class="border-gray-200 border-y dark:border-gray-700">
-                        <x-datagrid.sort-header field="restaurant_name"   label="Restaurace"  :sort-by="$sortBy" :sort-direction="$sortDirection" />
-                        <x-datagrid.sort-header field="organizer_name"   label="Organizátor" :sort-by="$sortBy" :sort-direction="$sortDirection" />
-                        <x-datagrid.sort-header field="participants_count" label="Účastníci"  :sort-by="$sortBy" :sort-direction="$sortDirection" />
-                        <x-datagrid.sort-header field="total_amount"     label="Částka"      :sort-by="$sortBy" :sort-direction="$sortDirection" />
-                        <x-datagrid.sort-header field="split_method"     label="Rozdělení"   :sort-by="$sortBy" :sort-direction="$sortDirection" />
-                        <x-datagrid.sort-header field="is_settled"       label="Stav"        :sort-by="$sortBy" :sort-direction="$sortDirection" />
-                        <x-datagrid.sort-header field="created_at"       label="Datum"       :sort-by="$sortBy" :sort-direction="$sortDirection" />
+                        <x-datagrid.sort-header field="restaurant_name" label="Restaurace" :sort-by="$sortBy" :sort-direction="$sortDirection" />
+                        <x-datagrid.sort-header field="organizer_name" label="Organizátor" :sort-by="$sortBy" :sort-direction="$sortDirection" />
+                        <x-datagrid.sort-header field="participants_count" label="Účastníci" :sort-by="$sortBy" :sort-direction="$sortDirection" />
+                        <x-datagrid.sort-header field="total_amount" label="Částka" :sort-by="$sortBy" :sort-direction="$sortDirection" />
+                        <x-datagrid.sort-header field="split_method" label="Rozdělení" :sort-by="$sortBy" :sort-direction="$sortDirection" />
+                        <x-datagrid.sort-header field="is_settled" label="Stav" :sort-by="$sortBy" :sort-direction="$sortDirection" />
+                        <x-datagrid.sort-header field="created_at" label="Datum" :sort-by="$sortBy" :sort-direction="$sortDirection" />
                         <th class="px-5 py-3 w-px"><span class="sr-only">Akce</span></th>
                     </tr>
                     </thead>
