@@ -1,4 +1,4 @@
-<div>
+<div wire:poll.5s="$refresh">
     <x-common.page-breadcrumb :pageTitle="'Katalog'" />
 
     {{-- Filters --}}
