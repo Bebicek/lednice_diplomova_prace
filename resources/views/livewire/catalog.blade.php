@@ -149,19 +149,23 @@
         @endphp
 
         <div
-            x-data
-            x-init="document.body.style.overflow = 'hidden'"
+            x-data="{ show: false }"
+            x-init="document.body.style.overflow = 'hidden'; $nextTick(() => show = true)"
             x-on:keydown.escape.window="$wire.closeDetail()"
             class="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4"
         >
             {{-- Backdrop --}}
             <div
+                x-show="show"
+                x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
                 wire:click="closeDetail"
                 class="absolute inset-0 bg-gray-900/60 backdrop-blur-sm"
             ></div>
 
             {{-- Modal panel --}}
             <div
+                x-show="show"
+                x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100"
                 @click.stop
                 class="relative w-full sm:max-w-2xl rounded-t-3xl sm:rounded-3xl border border-gray-200 bg-white shadow-2xl dark:border-gray-800 dark:bg-gray-dark overflow-hidden flex flex-col max-h-[90dvh]"
             >

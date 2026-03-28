@@ -1,5 +1,24 @@
 @php use App\Models\Debt; @endphp
-<div x-data="{ activeTab: 'unpaid', qrOpen: false, qrUrl: '', qrName: '', qrAmount: '', qrIban: '' }">
+<div x-data="{
+    activeTab: 'unpaid',
+    qrOpen: false, qrUrl: '', qrName: '', qrAmount: '', qrIban: '',
+    confirmOpen: false, confirmMethod: '', confirmArgs: '', confirmAmount: '', confirmLabel: '',
+    openConfirm(method, args, amount, label) {
+        this.confirmMethod = method;
+        this.confirmArgs = args;
+        this.confirmAmount = amount;
+        this.confirmLabel = label;
+        this.confirmOpen = true;
+    },
+    executeConfirm() {
+        if (this.confirmMethod === 'markAsPaid') {
+            $wire.markAsPaid(parseInt(this.confirmArgs));
+        } else {
+            $wire.markAllPaidForCreditor(this.confirmArgs);
+        }
+        this.confirmOpen = false;
+    }
+}">
     <x-common.page-breadcrumb :pageTitle="'Platby'" />
 
     @php
@@ -171,20 +190,15 @@
                         {{-- CTA button --}}
                         <div class="border-t border-gray-100 p-3 dark:border-gray-800">
                             <button
-                                wire:click="markAllPaidForCreditor('{{ $group['creditor_id_key'] }}')"
-                                wire:loading.attr="disabled"
-                                wire:target="markAllPaidForCreditor('{{ $group['creditor_id_key'] }}')"
-                                class="w-full inline-flex items-center justify-center gap-2 rounded-xl bg-success-500 px-4 py-2.5 text-theme-sm font-semibold text-white shadow-sm hover:bg-success-600 active:bg-success-700 transition-colors disabled:opacity-60"
+                                @click="openConfirm(
+                                    'markAllPaidForCreditor',
+                                    {{ json_encode($group['creditor_id_key']) }},
+                                    {{ json_encode(number_format($group['total'] / 100, 2, ',', ' ') . ' Kč') }},
+                                    {{ json_encode($group['creditor_name']) }}
+                                )"
+                                class="w-full inline-flex items-center justify-center gap-2 rounded-xl bg-success-500 px-4 py-2.5 text-theme-sm font-semibold text-white shadow-sm hover:bg-success-600 active:bg-success-700 transition-colors"
                             >
-                        <span wire:loading.remove wire:target="markAllPaidForCreditor('{{ $group['creditor_id_key'] }}')">
-                            <x-heroicon-o-check-circle class="w-4 h-4 inline -mt-0.5" />
-                        </span>
-                                <span wire:loading wire:target="markAllPaidForCreditor('{{ $group['creditor_id_key'] }}')">
-                            <svg class="w-4 h-4 inline animate-spin -mt-0.5" fill="none" viewBox="0 0 24 24">
-                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/>
-                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"/>
-                            </svg>
-                        </span>
+                                <x-heroicon-o-check-circle class="w-4 h-4 inline -mt-0.5" />
                                 Uhradil jsem – {{ number_format($group['total'] / 100, 2, ',', ' ') }} Kč
                             </button>
                         </div>
@@ -200,14 +214,84 @@
         </div>
     @endif
 
+    {{-- Confirmation Modal --}}
+    <div
+        x-show="confirmOpen"
+        x-cloak
+        x-transition:enter="transition ease-out duration-200"
+        x-transition:enter-start="opacity-0"
+        x-transition:enter-end="opacity-100"
+        x-transition:leave="transition ease-in duration-150"
+        x-transition:leave-start="opacity-100"
+        x-transition:leave-end="opacity-0"
+        @click.self="confirmOpen = false"
+        @keydown.escape.window="confirmOpen = false"
+        class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4"
+    >
+        <div
+            x-show="confirmOpen"
+            x-transition:enter="transition ease-out duration-200"
+            x-transition:enter-start="opacity-0 scale-95"
+            x-transition:enter-end="opacity-100 scale-100"
+            x-transition:leave="transition ease-in duration-150"
+            x-transition:leave-start="opacity-100 scale-100"
+            x-transition:leave-end="opacity-0 scale-95"
+            @click.stop
+            class="w-full max-w-sm rounded-2xl border border-gray-200 bg-white p-6 text-center shadow-xl dark:border-gray-800 dark:bg-gray-dark"
+        >
+            <div class="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-warning-50 dark:bg-warning-500/10">
+                <x-heroicon-o-exclamation-triangle class="w-7 h-7 text-warning-500" />
+            </div>
+
+            <h3 class="text-lg font-semibold text-gray-800 dark:text-white/90">Potvrzení platby</h3>
+
+            <p class="mt-2 text-theme-sm text-gray-500 dark:text-gray-400">
+                Opravdu jste odeslali platbu <span class="font-semibold text-gray-800 dark:text-white/90" x-text="confirmAmount"></span> pro <span class="font-semibold text-gray-800 dark:text-white/90" x-text="confirmLabel"></span>?
+            </p>
+
+            <p class="mt-1 text-theme-xs text-gray-400 dark:text-gray-500">
+                Tuto akci nelze jednoduše vrátit zpět.
+            </p>
+
+            <div class="mt-5 flex gap-3">
+                <button
+                    @click="confirmOpen = false"
+                    class="flex-1 rounded-xl border border-gray-300 px-4 py-2.5 text-theme-sm font-medium text-gray-700 hover:bg-gray-50 dark:border-gray-700 dark:text-gray-300 dark:hover:bg-white/[0.04] transition-colors"
+                >
+                    Zrušit
+                </button>
+                <button
+                    @click="executeConfirm()"
+                    class="flex-1 rounded-xl bg-success-500 px-4 py-2.5 text-theme-sm font-semibold text-white shadow-sm hover:bg-success-600 transition-colors"
+                >
+                    Ano, uhradil jsem
+                </button>
+            </div>
+        </div>
+    </div>
+
     {{-- QR Modal --}}
     <div
         x-show="qrOpen"
         x-cloak
+        x-transition:enter="transition ease-out duration-200"
+        x-transition:enter-start="opacity-0"
+        x-transition:enter-end="opacity-100"
+        x-transition:leave="transition ease-in duration-150"
+        x-transition:leave-start="opacity-100"
+        x-transition:leave-end="opacity-0"
         @click.self="qrOpen = false"
         class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4"
     >
-        <div class="w-full max-w-xs rounded-2xl border border-gray-200 bg-white p-6 text-center shadow-xl dark:border-gray-800 dark:bg-gray-dark">
+        <div
+            x-show="qrOpen"
+            x-transition:enter="transition ease-out duration-200"
+            x-transition:enter-start="opacity-0 scale-95"
+            x-transition:enter-end="opacity-100 scale-100"
+            x-transition:leave="transition ease-in duration-150"
+            x-transition:leave-start="opacity-100 scale-100"
+            x-transition:leave-end="opacity-0 scale-95"
+            class="w-full max-w-xs rounded-2xl border border-gray-200 bg-white p-6 text-center shadow-xl dark:border-gray-800 dark:bg-gray-dark">
             <div class="mb-4 flex items-center justify-between">
                 <h3 class="text-theme-sm font-semibold text-gray-800 dark:text-white/90">QR Platba</h3>
                 <button @click="qrOpen = false" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200">
@@ -332,10 +416,13 @@
                         </td>
                         <td class="px-5 py-4 text-right">
                             <button
-                                wire:click="markAsPaid({{ $debt->id }})"
-                                wire:loading.attr="disabled"
-                                wire:target="markAsPaid({{ $debt->id }})"
-                                class="inline-flex items-center gap-1 text-brand-500 hover:text-brand-700 text-theme-sm font-medium disabled:opacity-50"
+                                @click="openConfirm(
+                                    'markAsPaid',
+                                    '{{ $debt->id }}',
+                                    {{ json_encode(number_format($debt->amount / 100, 2, ',', ' ') . ' Kč') }},
+                                    {{ json_encode($debt->creditor?->name ?? 'Lednička') }}
+                                )"
+                                class="inline-flex items-center gap-1 text-brand-500 hover:text-brand-700 text-theme-sm font-medium"
                             >
                                 <x-heroicon-o-check class="w-4 h-4" />
                                 Označit jako zaplaceno
