@@ -4,37 +4,6 @@ namespace App\Helpers;
 
 class MenuHelper
 {
-    public static function getMainNavItems()
-    {
-        return [
-            [
-                'icon' => 'dashboard',
-                'name' => 'Dashboard',
-                'path' => '/dashboard',
-            ],
-            [
-                'icon' => 'ecommerce',
-                'name' => 'Katalog',
-                'path' => '/catalog',
-            ],
-            [
-                'icon' => 'ecommerce',
-                'name' => 'Košík',
-                'path' => '/cart',
-            ],
-            [
-                'icon' => 'tables',
-                'name' => 'Platby',
-                'path' => '/my-debts',
-            ],
-            [
-                'icon' => 'calendar',
-                'name' => 'Obědy',
-                'path' => '/lunches',
-            ],
-        ];
-    }
-
     public static function getAdminNavItems()
     {
         return [
