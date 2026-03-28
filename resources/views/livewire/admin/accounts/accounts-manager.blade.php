@@ -1,5 +1,5 @@
 <div>
-    <x-common.page-breadcrumb :pageTitle="'Účty a dluhy'" />
+    <x-common.page-breadcrumb :pageTitle="'Platby a účty'" />
 
 
     {{-- Stats cards --}}

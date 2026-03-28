@@ -24,7 +24,7 @@ class MenuHelper
             ],
             [
                 'icon' => 'tables',
-                'name' => 'Moje dluhy',
+                'name' => 'Platby',
                 'path' => '/my-debts',
             ],
             [
@@ -65,7 +65,7 @@ class MenuHelper
             ],
             [
                 'icon' => 'charts',
-                'name' => 'Účty a dluhy',
+                'name' => 'Platby a účty',
                 'path' => '/admin/accounts',
             ],
             [

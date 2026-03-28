@@ -1,6 +1,6 @@
 @php use App\Models\Debt; @endphp
 <div x-data="{ activeTab: 'unpaid', qrOpen: false, qrUrl: '', qrName: '', qrAmount: '', qrIban: '' }">
-    <x-common.page-breadcrumb :pageTitle="'Moje dluhy'" />
+    <x-common.page-breadcrumb :pageTitle="'Platby'" />
 
     @php
         $pendingLunchDebts = Debt::where('user_id', auth()->id())

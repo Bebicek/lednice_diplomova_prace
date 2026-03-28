@@ -92,7 +92,7 @@
                             </a>
                             <a href="{{ route('my-debts') }}"
                                 class="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg text-theme-sm font-medium transition-colors {{ request()->routeIs('my-debts') ? 'bg-brand-50 text-brand-600 dark:bg-brand-500/10 dark:text-brand-400' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-white/5 dark:hover:text-white' }}">
-                                Moje dluhy
+                                Platby
                                 @php $desktopDebtCount = Debt::where('user_id', auth()->id())->where('is_paid', false)->where('is_accepted', true)->count(); @endphp
                                 @if($desktopDebtCount > 0)
                                     <span class="inline-flex items-center justify-center w-5 h-5 rounded-full bg-red-500 text-white text-xs font-bold">
@@ -225,7 +225,7 @@
                 </a>
                 <a href="{{ route('my-debts') }}"
                     class="whitespace-nowrap inline-flex items-center gap-1.5 px-3 py-2 rounded-lg text-theme-sm font-medium {{ request()->routeIs('my-debts') ? 'bg-brand-50 text-brand-600 dark:bg-brand-500/10 dark:text-brand-400' : 'text-gray-600 dark:text-gray-300' }}">
-                    Moje dluhy
+                    Platby
                     @php $mobileDebtCount = Debt::where('user_id', auth()->id())->where('is_paid', false)->where('is_accepted', true)->count(); @endphp
                     @if($mobileDebtCount > 0)
                         <span class="inline-flex items-center justify-center w-5 h-5 rounded-full bg-red-500 text-white text-xs font-bold">
