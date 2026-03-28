@@ -291,7 +291,6 @@ class StockManager extends Component
         ]);
     }
 
-    // Render
     public function render(): View
     {
         $allowedSorts = ['name', 'category_id'];

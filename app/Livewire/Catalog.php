@@ -45,11 +45,19 @@ class Catalog extends Component
         $commodity = Commodity::with('stock')->find($commodityId);
 
         if (! $commodity || $commodity->fridge_quantity <= 0) {
-            session()->flash('error', 'Produkt není aktuálně dostupný v lednici.');
+            $this->dispatch('toast-error', message: 'Produkt není aktuálně dostupný v lednici.');
             return;
         }
 
         $cart = session()->get('cart', []);
+
+        $cartCurrentQuantity = $cart[$commodityId]['quantity'] ?? 0;
+
+        // Check if the user can add the commodity to the cart
+        if ($cartCurrentQuantity + 1 > $commodity->fridge_quantity) {
+            $this->dispatch('toast-error', message: 'V lednici už není dostatek kusů');
+            return;
+        }
 
         if (isset($cart[$commodityId])) {
             $cart[$commodityId]['quantity']++;

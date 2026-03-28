@@ -2,7 +2,6 @@
 
 namespace App\Livewire;
 
-use App\Models\Commodity;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Debt;
@@ -25,9 +24,16 @@ class Cart extends Component
     public function increment(int $commodityId)
     {
         if (isset($this->cart[$commodityId])) {
-            $this->cart[$commodityId]['quantity']++;
-            session()->put('cart', $this->cart);
-            $this->dispatch('cart-updated');
+
+            $currentFridgeQuantity = Stock::where('commodity_id', $commodityId)->where('location', 'fridge')->value('quantity');
+
+            if ($this->cart[$commodityId]['quantity'] + 1 > $currentFridgeQuantity) {
+                session()->flash('error', 'Daný produkt už není v lednici dostupný');
+                return;
+            }
+                $this->cart[$commodityId]['quantity']++;
+                session()->put('cart', $this->cart);
+                $this->dispatch('cart-updated');
         }
     }
 
@@ -72,56 +78,56 @@ class Cart extends Component
             return;
         }
 
-        DB::transaction(function () {
-            // Create the order
-            $order = Order::create([
-                'user_id' => auth()->id(),
-                'total_amount' => $this->getTotal(),
-            ]);
-
-            foreach ($this->cart as $item) {
-                // Create the order item
-                OrderItem::create([
-                    'order_id' => $order->id,
-                    'commodity_id' => $item['id'],
-                    'quantity' => $item['quantity'],
-                    'price' => $item['price'],
+        try {
+            DB::transaction(function () {
+                $order = Order::create([
+                    'user_id' => auth()->id(),
+                    'total_amount' => $this->getTotal(),
                 ]);
 
-                // Deduct from fridge stock (never below 0)
-                $stock = Stock::where('commodity_id', $item['id'])
-                    ->where('location', 'fridge')
-                    ->first();
+                foreach ($this->cart as $item) {
+                    $stock = Stock::where('commodity_id', $item['id'])
+                        ->where('location', 'fridge')
+                        ->lockForUpdate()
+                        ->first();
 
-                if ($stock) {
-                    $deduct = min($item['quantity'], max(0, $stock->quantity));
-                    if ($deduct > 0) {
-                        $stock->decrement('quantity', $deduct);
+                    if (!$stock || $stock->quantity < $item['quantity']) {
+                        throw new \Exception('Zboží "' . $item['name'] . '" už není v dostatečném množství.');
                     }
+
+                    OrderItem::create([
+                        'order_id' => $order->id,
+                        'commodity_id' => $item['id'],
+                        'quantity' => $item['quantity'],
+                        'price' => $item['price'],
+                    ]);
+
+                    $stock->decrement('quantity', $item['quantity']);
+
+                    StockMovement::create([
+                        'commodity_id' => $item['id'],
+                        'user_id' => auth()->id(),
+                        'type' => 'sale',
+                        'quantity' => -$item['quantity'],
+                        'note' => "Prodej - objednávka #{$order->id}",
+                    ]);
                 }
 
-                // Record the stock movement
-                StockMovement::create([
-                    'commodity_id' => $item['id'],
+                // Create the debt record
+                Debt::create([
                     'user_id' => auth()->id(),
-                    'type' => 'sale',
-                    'quantity' => -$item['quantity'],
-                    'note' => "Prodej - objednávka #{$order->id}",
+                    'creditor_id' => null, // System debt
+                    'order_id' => $order->id,
+                    'amount' => $this->getTotal(),
+                    'is_paid' => false,
                 ]);
-            }
 
-            // Create the debt record
-            Debt::create([
-                'user_id' => auth()->id(),
-                'creditor_id' => null, // System debt
-                'order_id' => $order->id,
-                'amount' => $this->getTotal(),
-                'is_paid' => false,
-            ]);
-
-            // Clear the cart
-            $this->clearCart();
-        });
+                $this->clearCart();
+            });
+        } catch (\Exception $e) {
+            session()->flash('error', $e->getMessage());
+            return;
+        }
 
         session()->flash('success', 'Objednávka byla vytvořena!');
         return redirect()->route('my-debts');
