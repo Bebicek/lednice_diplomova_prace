@@ -202,7 +202,7 @@
 
         {{-- delivery + split + preview --}}
         @if($step === 3)
-            <h2 class="mb-5 text-lg font-semibold text-gray-800 dark:text-white/90">Doprava a způsob dělení</h2>
+            <h2 class="mb-5 text-lg font-semibold text-gray-800 dark:text-white/90">Doprava a způsob dělení ceny</h2>
 
             <div class="mb-6 grid grid-cols-1 gap-4 sm:grid-cols-2">
                 {{-- Delivery cost --}}
@@ -219,7 +219,7 @@
                 {{-- Split method --}}
                 <div>
                     <label class="mb-1.5 block text-theme-sm font-medium text-gray-700 dark:text-gray-300">
-                        Způsob dělení jídla
+                        Způsob dělení ceny
                     </label>
                     <div class="flex flex-col gap-2 pt-1">
                         <label class="flex cursor-pointer items-center gap-3">
