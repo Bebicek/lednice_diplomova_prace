@@ -3,6 +3,7 @@
 namespace App\Livewire\Admin\Commodities;
 
 use App\Models\Commodity;
+use http\Message;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Rule;
 use Livewire\Component;
@@ -197,6 +198,8 @@ class CommodityManager extends Component
     {
         $commodity = Commodity::findOrFail($id);
         $commodity->update(['is_active' => !$commodity->is_active]);
+
+        $this->dispatch('toast-success', message: 'Stav produktu byl změněn.');
     }
 
     public function bulkDelete(): void
