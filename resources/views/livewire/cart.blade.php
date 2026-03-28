@@ -1,4 +1,4 @@
-<div>
+<div wire:poll.5s="validateCartStock">
     <x-common.page-breadcrumb :pageTitle="'Košík'" />
 
     @if(session('error'))

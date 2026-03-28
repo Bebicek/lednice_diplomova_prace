@@ -37,6 +37,20 @@ class Cart extends Component
         }
     }
 
+    public function validateCartStock(): void
+    {
+        foreach ($this->cart as $item) {
+            $fridgeQty = Stock::where('commodity_id', $item['id'])
+                ->where('location', 'fridge')
+                ->value('quantity') ?? 0;
+
+            if ($fridgeQty < $item['quantity']) {
+                $this->dispatch('toast-error', message: 'Některé produkty v košíku již nejsou dostupné v dostatečném množství.');
+                return;
+            }
+        }
+    }
+
     public function decrement(int $commodityId)
     {
         if (isset($this->cart[$commodityId])) {
