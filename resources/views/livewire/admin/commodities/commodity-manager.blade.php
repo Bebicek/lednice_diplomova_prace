@@ -84,6 +84,7 @@
                                 </svg>
                             </div>
                         </th>
+                        <x-datagrid.sort-header field="name" label="ID" :sort-by="$sortBy" :sort-direction="$sortDirection" />
                         <x-datagrid.sort-header field="name" label="Produkt" :sort-by="$sortBy" :sort-direction="$sortDirection" />
                         <x-datagrid.sort-header field="category_id" label="Kategorie" :sort-by="$sortBy" :sort-direction="$sortDirection" />
                         <x-datagrid.sort-header field="price" label="Cena" :sort-by="$sortBy" :sort-direction="$sortDirection" />
@@ -112,6 +113,9 @@
                                         <path d="M11.6668 3.5L5.25016 9.91667L2.3335 7" stroke="white" stroke-width="1.94437" stroke-linecap="round" stroke-linejoin="round"/>
                                     </svg>
                                 </div>
+                            </td>
+                            <td class="px-4 sm:px-6 py-3.5">
+                                <span class="text-theme-sm text-gray-500 dark:text-gray-400">{{ $commodity->id }}</span>
                             </td>
                             <td class="px-4 sm:px-6 py-3.5">
                                 <div class="flex items-center">

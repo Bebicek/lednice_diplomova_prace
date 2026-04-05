@@ -44,6 +44,7 @@
                 <table class="min-w-full">
                     <thead>
                     <tr class="border-gray-200 border-y dark:border-gray-700">
+                        <x-datagrid.sort-header field="name" label="ID" :sort-by="$sortBy" :sort-direction="$sortDirection" />
                         <x-datagrid.sort-header field="name" label="Název" :sort-by="$sortBy" :sort-direction="$sortDirection" />
                         <th class="px-6 py-3 font-medium text-gray-500 text-theme-xs dark:text-gray-400 text-start">
                             Počet produktů
@@ -57,6 +58,10 @@
                     <tbody class="divide-y divide-gray-100 dark:divide-gray-800">
                     @forelse($categories as $category)
                         <tr class="hover:bg-gray-50 dark:hover:bg-white/[0.02]">
+                            <td class="px-4 sm:px-6 py-3.5 whitespace-nowrap">
+                                    <span
+                                        class="text-theme-sm text-gray-500 dark:text-gray-400">{{ $category->id }}</span>
+                            </td>
                             <td class="px-4 sm:px-6 py-3.5 whitespace-nowrap">
                                     <span
                                         class="text-theme-sm text-gray-500 dark:text-gray-400">{{ $category->name }}</span>
