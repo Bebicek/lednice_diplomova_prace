@@ -32,7 +32,7 @@ Route::post('/logout', function () {
 })->name('logout');
 
 // TODO: Have to make all of them or remove them later
-// Client routes WIP
+// Client routes
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', Dashboard::class)->name('dashboard');
     Route::get('/catalog', Catalog::class)->name('catalog');

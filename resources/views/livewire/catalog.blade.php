@@ -50,23 +50,6 @@
                 </div>
             </div>
 
-            {{-- Price Range --}}
-            <div>
-                <h3 class="text-theme-sm font-semibold text-gray-800 dark:text-white/90 mb-3">Cenový rozsah</h3>
-                <div x-data="{ value: @entangle('priceMax') }" class="space-y-2">
-                    <input type="range"
-                           x-model="value"
-                           min="0"
-                           :max="{{ $maxPriceCzk }}"
-                           step="1"
-                           class="w-full h-2 rounded-full appearance-none cursor-pointer bg-gray-200 dark:bg-gray-700 accent-brand-500" />
-                    <div class="flex items-center justify-between text-theme-xs text-gray-500 dark:text-gray-400">
-                        <span>0,00 Kč</span>
-                        <span x-text="new Intl.NumberFormat('cs-CZ', { minimumFractionDigits: 2 }).format(value) + ' Kč'"></span>
-                    </div>
-                </div>
-            </div>
-
             {{-- Only in stock --}}
             <div class="flex items-center justify-between">
                 <span class="text-theme-sm text-gray-600 dark:text-gray-400">Pouze skladem</span>

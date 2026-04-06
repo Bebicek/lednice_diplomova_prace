@@ -24,12 +24,6 @@ class Catalog extends Component
 
     protected $queryString = ['search', 'categoryId', 'sortBy', 'onlyInStock'];
 
-    public function mount(): void
-    {
-        $maxPrice = Commodity::where('is_active', true)->max('price');
-        $this->priceMax = $maxPrice ? ceil($maxPrice / 100) : 100;
-    }
-
     public function updatingSearch(): void
     {
         $this->resetPage();
@@ -134,15 +128,11 @@ class Catalog extends Component
             ? Commodity::with(['category', 'stock'])->find($this->selectedCommodityId)
             : null;
 
-        // Max price for range slider
-        $maxPriceValue = Commodity::where('is_active', true)->max('price');
-        $maxPriceCzk = $maxPriceValue ? ceil($maxPriceValue / 100) : 100;
 
         return view('livewire.catalog', [
             'commodities' => $commodities,
             'categories' => $categories,
             'selectedCommodity' => $selectedCommodity,
-            'maxPriceCzk' => $maxPriceCzk,
         ]);
     }
 }
