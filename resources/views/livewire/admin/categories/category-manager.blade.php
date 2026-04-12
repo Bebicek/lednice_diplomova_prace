@@ -44,6 +44,7 @@
                 <table class="min-w-full">
                     <thead>
                     <tr class="border-gray-200 border-y dark:border-gray-700">
+                        <x-datagrid.sort-header field="name" label="ID" :sort-by="$sortBy" :sort-direction="$sortDirection" />
                         <x-datagrid.sort-header field="name" label="Název" :sort-by="$sortBy" :sort-direction="$sortDirection" />
                         <th class="px-6 py-3 font-medium text-gray-500 text-theme-xs dark:text-gray-400 text-start">
                             Počet produktů
@@ -57,6 +58,10 @@
                     <tbody class="divide-y divide-gray-100 dark:divide-gray-800">
                     @forelse($categories as $category)
                         <tr class="hover:bg-gray-50 dark:hover:bg-white/[0.02]">
+                            <td class="px-4 sm:px-6 py-3.5 whitespace-nowrap">
+                                    <span
+                                        class="text-theme-sm text-gray-500 dark:text-gray-400">{{ $category->id }}</span>
+                            </td>
                             <td class="px-4 sm:px-6 py-3.5 whitespace-nowrap">
                                     <span
                                         class="text-theme-sm text-gray-500 dark:text-gray-400">{{ $category->name }}</span>
@@ -199,7 +204,7 @@
                  class="fixed inset-0 bg-gray-900/50 dark:bg-gray-900/70" wire:click="closeModal"></div>
             <div x-show="show"
                  x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100"
-                 class="relative w-full max-w-lg mx-4 max-h-[90vh] overflow-y-auto rounded-2xl bg-white p-6 shadow-xl dark:bg-gray-900">
+                 class="relative w-full max-w-lg mx-4 max-h-[90vh] overflow-y-auto rounded-2xl border border-gray-200 bg-white p-6 shadow-xl dark:border-gray-700 dark:bg-gray-800">
                 <h3 class="mb-5 text-lg font-semibold text-gray-800 dark:text-white">
                     {{ $editingId ? 'Upravit kategorii' : 'Nová kategorie' }}
                 </h3>

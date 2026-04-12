@@ -2,7 +2,7 @@
 
 namespace App\Livewire\Admin\Expiry;
 
-use App\Models\Commodity;
+use App\Models\Stock;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Rule;
 use Livewire\Component;
@@ -18,16 +18,16 @@ class ExpiryManager extends Component
 
     public function openEdit(int $id): void
     {
-        $commodity = Commodity::findOrFail($id);
+        $stock = Stock::findOrFail($id);
         $this->editingId = $id;
-        $this->editDate = $commodity->expires_at?->format('Y-m-d') ?? '';
+        $this->editDate = $stock->expires_at?->format('Y-m-d') ?? '';
     }
 
     public function saveEdit(): void
     {
         $this->validate(['editDate' => 'nullable|date']);
 
-        Commodity::findOrFail($this->editingId)
+        Stock::findOrFail($this->editingId)
             ->update(['expires_at' => $this->editDate ?: null]);
 
         $this->editingId = null;
@@ -43,22 +43,25 @@ class ExpiryManager extends Component
 
     public function clearExpiry(int $id): void
     {
-        Commodity::findOrFail($id)->update(['expires_at' => null]);
+        Stock::findOrFail($id)->update(['expires_at' => null]);
         $this->dispatch('toast-success', message: 'Datum spotřeby bylo odebráno.');
     }
 
     public function render()
     {
-        $all = Commodity::all();
+        $allFridgeStock = Stock::with(['commodity.category'])
+            ->where('location', 'fridge')
+            ->get();
 
         $stats = [
-            'expired' => $all->filter(fn ($c) => $c->expiry_status === 'expired')->count(),
-            'critical' => $all->filter(fn ($c) => $c->expiry_status === 'critical')->count(),
-            'warning' => $all->filter(fn ($c) => $c->expiry_status === 'warning')->count(),
-            'none' => $all->filter(fn ($c) => $c->expires_at === null)->count(),
+            'expired' => $allFridgeStock->filter(fn ($s) => $s->expiry_status === 'expired')->count(),
+            'critical' => $allFridgeStock->filter(fn ($s) => $s->expiry_status === 'critical')->count(),
+            'warning' => $allFridgeStock->filter(fn ($s) => $s->expiry_status === 'warning')->count(),
+            'none' => $allFridgeStock->filter(fn ($s) => $s->expires_at === null)->count(),
         ];
 
-        $commodities = Commodity::with(['category', 'stock'])
+        $stocks = Stock::with(['commodity.category'])
+            ->where('location', 'fridge')
             ->when($this->filterStatus !== 'all', function ($q) {
                 match ($this->filterStatus) {
                     'expired' => $q->whereNotNull('expires_at')->whereDate('expires_at', '<', today()),
@@ -71,12 +74,12 @@ class ExpiryManager extends Component
             })
             ->orderByRaw('CASE WHEN expires_at IS NULL THEN 1 ELSE 0 END')
             ->orderBy('expires_at')
-            ->orderBy('name')
-            ->get();
+            ->get()
+            ->sortBy(fn ($s) => $s->commodity?->name);
 
         return view('livewire.admin.expiry.expiry-manager', [
             'stats' => $stats,
-            'commodities' => $commodities,
+            'stocks' => $stocks,
         ]);
     }
 }

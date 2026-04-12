@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ $title ?? 'Dashboard' }} | Lednička</title>
+    <title>Lednička</title>
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @livewireStyles
@@ -219,7 +219,7 @@
                     Katalog
                 </a>
                 <a href="{{ route('cart') }}"
-                    class="whitespace-nowrap inline-flex items-center gap-1 px-3 py-2 rounded-lg text-theme-sm font-medium {{ request()->routeIs('cart') ? 'bg-brand-50 text-brand-600 dark:bg-brand-500/10 dark:text-brand-400' : 'text-gray-600 dark:text-gray-300' }}">
+                    class="whitespace-nowrap inline-flex items-center px-3 py-2 rounded-lg text-theme-sm font-medium {{ request()->routeIs('cart') ? 'bg-brand-50 text-brand-600 dark:bg-brand-500/10 dark:text-brand-400' : 'text-gray-600 dark:text-gray-300' }}">
                     Košík
                     <livewire:cart-counter />
                 </a>

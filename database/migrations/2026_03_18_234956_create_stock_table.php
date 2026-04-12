@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('commodity_id')->constrained()->cascadeOnDelete();
             $table->string('location'); //warehouse or fridge
             $table->integer('quantity')->default(0);
+            $table->date('expires_at')->nullable();
             $table->timestamps();
 
             $table->unique(['commodity_id', 'location']);

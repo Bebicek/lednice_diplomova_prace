@@ -3,7 +3,6 @@
 
     {{-- Stats cards --}}
     <div class="grid grid-cols-2 gap-4 xl:grid-cols-4 md:gap-6 mb-6">
-
         <x-common.stat-card label="Prošlé" :value="$stats['expired']" color="error" icon="x-circle" />
         <x-common.stat-card label="Vyprší do 3 dní" :value="$stats['critical']" color="error" icon="exclamation-triangle" />
         <x-common.stat-card label="Vyprší do 7 dní" :value="$stats['warning']" color="warning" icon="clock" />
@@ -16,8 +15,8 @@
         {{-- Table header --}}
         <div class="flex items-center justify-between px-5 py-4 border-b border-gray-100 dark:border-gray-800 md:px-6">
             <div>
-                <h3 class="text-base font-semibold text-gray-800 dark:text-white/90">Přehled dat spotřeby</h3>
-                <p class="mt-0.5 text-xs text-gray-400 dark:text-gray-500">Seřazeno dle data spotřeby - nejdříve vypršené</p>
+                <h3 class="text-base font-semibold text-gray-800 dark:text-white/90">Přehled dat spotřeby v lednici</h3>
+                <p class="mt-0.5 text-xs text-gray-400 dark:text-gray-500">Seřazeno dle data spotřeby</p>
             </div>
 
             {{-- Filter --}}
@@ -47,27 +46,26 @@
                 </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-100 dark:divide-gray-800">
-                @forelse($commodities as $commodity)
+                @forelse($stocks as $stock)
                     @php
-                        $status = $commodity->expiry_status;
-                        $days = $commodity->days_until_expiry;
+                        $status = $stock->expiry_status;
+                        $days = $stock->days_until_expiry;
                     @endphp
                     <tr class="hover:bg-gray-50 dark:hover:bg-white/[0.02] transition-colors">
 
                         {{-- Product name --}}
                         <td class="px-6 py-3.5">
-                            <p class="text-sm font-medium text-gray-800 dark:text-white/90">{{ $commodity->name }}</p>
+                            <p class="text-sm font-medium text-gray-800 dark:text-white/90">{{ $stock->commodity?->name ?? '-' }}</p>
                         </td>
 
                         {{-- Category --}}
                         <td class="px-6 py-3.5 whitespace-nowrap">
-                            <span class="text-sm text-gray-500 dark:text-gray-400">{{ $commodity->category?->name ?? '-' }}</span>
+                            <span class="text-sm text-gray-500 dark:text-gray-400">{{ $stock->commodity?->category?->name ?? '-' }}</span>
                         </td>
 
                         {{-- Expiry date inline edit --}}
                         <td class="px-6 py-3.5 whitespace-nowrap">
-                            @if($editingId === $commodity->id)
-                                {{-- Inline date input --}}
+                            @if($editingId === $stock->id)
                                 <div class="flex items-center gap-2">
                                     <input type="date" wire:model="editDate"
                                            class="rounded-lg border border-gray-300 bg-white px-2 py-1 text-sm text-gray-800 focus:border-brand-300 focus:outline-hidden focus:ring-2 focus:ring-brand-500/10 dark:border-gray-700 dark:bg-gray-900 dark:text-white/90" />
@@ -79,10 +77,10 @@
                                     </button>
                                 </div>
                             @else
-                                <button wire:click="openEdit({{ $commodity->id }})"
+                                <button wire:click="openEdit({{ $stock->id }})"
                                         class="text-sm text-gray-700 dark:text-gray-300 hover:text-brand-500 dark:hover:text-brand-400 transition-colors"
                                         title="Kliknutím upravit datum">
-                                    {{ $commodity->expires_at?->format('d. m. Y') ?? '-' }}
+                                    {{ $stock->expires_at?->format('d. m. Y') ?? '-' }}
                                 </button>
                             @endif
                         </td>
@@ -128,24 +126,23 @@
 
                         {{-- Fridge qty --}}
                         <td class="px-6 py-3.5 whitespace-nowrap">
-                                <span class="text-sm font-medium
-                                    {{ $commodity->fridge_quantity <= 0 ? 'text-error-500' : 'text-gray-700 dark:text-gray-300' }}">
-                                    {{ max(0, $commodity->fridge_quantity) }} ks
-                                </span>
+                            <span class="text-sm font-medium
+                                {{ $stock->quantity <= 0 ? 'text-error-500' : 'text-gray-700 dark:text-gray-300' }}">
+                                {{ max(0, $stock->quantity) }} ks
+                            </span>
                         </td>
 
                         {{-- Actions --}}
                         <td class="px-6 py-3.5 whitespace-nowrap text-right">
                             <div class="flex items-center justify-end gap-2">
-                                <button wire:click="openEdit({{ $commodity->id }})"
+                                <button wire:click="openEdit({{ $stock->id }})"
                                         class="flex items-center justify-center w-7 h-7 rounded-lg text-gray-400 hover:bg-gray-100 hover:text-gray-600 dark:hover:bg-white/5 dark:hover:text-gray-200 transition-colors"
                                         title="Upravit datum">
                                     <x-heroicon-o-pencil class="w-3.5 h-3.5" />
                                 </button>
-                                @if($commodity->expires_at)
-                                    <button wire:click="clearExpiry({{ $commodity->id }})"
-{{--                                                    TODO: REPLACE THE CONFIRM WITH SOMETHING BETTER OR STYLISH BECAUASE NOT IT LOOKS TERRIBLE HOW IT IS--}}
-                                            wire:confirm="Odebrat datum spotřeby z tohoto produktu?"
+                                @if($stock->expires_at)
+                                    <button wire:click="clearExpiry({{ $stock->id }})"
+                                            wire:confirm="Odebrat datum spotřeby z tohoto záznamu?"
                                             class="flex items-center justify-center w-7 h-7 rounded-lg text-gray-400 hover:bg-error-50 hover:text-error-500 dark:hover:bg-error-500/10 transition-colors"
                                             title="Odebrat datum">
                                         <x-heroicon-o-trash class="w-3.5 h-3.5" />

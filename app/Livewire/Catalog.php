@@ -15,10 +15,14 @@ class Catalog extends Component
 
     public string $search = '';
     public ?int $categoryId = null;
-    public string $sortBy = 'name';
+    public string $sortBy = 'popular';
     public ?int $selectedCommodityId = null;
+    public float $priceMin = 0;
+    public float $priceMax = 100;
+    public bool $onlyInStock = false;
+    public string $viewMode = 'grid';
 
-    protected $queryString = ['search', 'categoryId', 'sortBy'];
+    protected $queryString = ['search', 'categoryId', 'sortBy', 'onlyInStock'];
 
     public function updatingSearch(): void
     {
@@ -27,6 +31,22 @@ class Catalog extends Component
 
     public function updatingCategoryId(): void
     {
+        $this->resetPage();
+    }
+
+    public function updatingOnlyInStock(): void
+    {
+        $this->resetPage();
+    }
+
+    public function updatingSortBy(): void
+    {
+        $this->resetPage();
+    }
+
+    public function setCategory(?int $id): void
+    {
+        $this->categoryId = $this->categoryId === $id ? null : $id;
         $this->resetPage();
     }
 
@@ -77,19 +97,37 @@ class Catalog extends Component
 
     public function render()
     {
-        $commodities = Commodity::query()
+        $query = Commodity::query()
             ->where('is_active', true)
             ->with(['category', 'stock'])
             ->when($this->search, fn($q) => $q->where('name', 'ilike', "%{$this->search}%"))
-            ->when($this->categoryId, fn($q) => $q->where('category_id', $this->categoryId))
-            ->orderBy($this->sortBy)
-            ->paginate(12);
+            ->when($this->categoryId, fn($q) => $q->where('category_id', $this->categoryId));
 
-        $categories = Category::orderBy('name')->get();
+        if ($this->onlyInStock) {
+            $query->whereHas('stock', function ($q) {
+                $q->where('location', 'fridge')->where('quantity', '>', 0);
+            });
+        }
+
+        // Sorting
+        match ($this->sortBy) {
+            'price_asc' => $query->orderBy('price', 'asc'),
+            'price_desc' => $query->orderBy('price', 'desc'),
+            'name' => $query->orderBy('name', 'asc'),
+            default => $query->orderBy('name', 'asc'), // popular = default
+        };
+
+        $commodities = $query->paginate(9);
+
+        // Categories with commodity counts
+        $categories = Category::withCount(['commodities' => function ($q) {
+            $q->where('is_active', true);
+        }])->orderBy('name')->get();
 
         $selectedCommodity = $this->selectedCommodityId
             ? Commodity::with(['category', 'stock'])->find($this->selectedCommodityId)
             : null;
+
 
         return view('livewire.catalog', [
             'commodities' => $commodities,

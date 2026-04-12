@@ -39,9 +39,6 @@ class CommodityManager extends Component
     #[Rule('nullable|max:255')]
     public string $barcode = '';
 
-    #[Rule('nullable|date')]
-    public ?string $expiresAt = null;
-
     #[Rule('nullable|image|max:2048')]
     public $image = null;
 
@@ -101,7 +98,6 @@ class CommodityManager extends Component
             $this->description = $commodity->description ?? '';
             $this->category_id = $commodity->category_id;
             $this->barcode = $commodity->barcode ?? '';
-            $this->expiresAt = $commodity->expires_at?->format('Y-m-d');
             $this->is_active = $commodity->is_active;
             $this->existingImage = $commodity->image_path;
         } else {
@@ -127,7 +123,6 @@ class CommodityManager extends Component
             'price' => (int) round((float) str_replace(',', '.', $this->price) * 100),
             'description' => $this->description ?: null,
             'barcode' => $this->barcode ?: null,
-            'expires_at' => $this->expiresAt ?: null,
             'category_id' => $this->category_id,
             'is_active' => $this->is_active,
         ];
@@ -182,7 +177,6 @@ class CommodityManager extends Component
         $this->price = '0.00';
         $this->description = '';
         $this->barcode = '';
-        $this->expiresAt = null;
         $this->image = null;
         $this->existingImage = null;
         $this->is_active = true;

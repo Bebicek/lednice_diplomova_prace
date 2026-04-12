@@ -84,11 +84,11 @@
                                 </svg>
                             </div>
                         </th>
+                        <x-datagrid.sort-header field="name" label="ID" :sort-by="$sortBy" :sort-direction="$sortDirection" />
                         <x-datagrid.sort-header field="name" label="Produkt" :sort-by="$sortBy" :sort-direction="$sortDirection" />
                         <x-datagrid.sort-header field="category_id" label="Kategorie" :sort-by="$sortBy" :sort-direction="$sortDirection" />
                         <x-datagrid.sort-header field="price" label="Cena" :sort-by="$sortBy" :sort-direction="$sortDirection" />
                         <x-datagrid.sort-header field="is_active" label="Stav" :sort-by="$sortBy" :sort-direction="$sortDirection" />
-                        <th class="px-6 py-3 font-medium text-gray-500 text-theme-xs dark:text-gray-400 text-start">Spotřeba</th>
                         <x-datagrid.sort-header field="created_at" label="Přidáno" :sort-by="$sortBy" :sort-direction="$sortDirection" />
                         <x-datagrid.sort-header field="updated_at" label="Upraveno" :sort-by="$sortBy" :sort-direction="$sortDirection" />
                         <th class="pl-6 pr-4 py-3 w-px font-medium text-gray-500 text-theme-xs dark:text-gray-400 text-start">
@@ -112,6 +112,9 @@
                                         <path d="M11.6668 3.5L5.25016 9.91667L2.3335 7" stroke="white" stroke-width="1.94437" stroke-linecap="round" stroke-linejoin="round"/>
                                     </svg>
                                 </div>
+                            </td>
+                            <td class="px-4 sm:px-6 py-3.5">
+                                <span class="text-theme-sm text-gray-500 dark:text-gray-400">{{ $commodity->id }}</span>
                             </td>
                             <td class="px-4 sm:px-6 py-3.5">
                                 <div class="flex items-center">
@@ -142,28 +145,6 @@
                                             : 'bg-red-50 text-red-700 dark:bg-red-500/15 dark:text-red-500' }}">
                                     {{ $commodity->is_active ? 'Aktivní' : 'Neaktivní' }}
                                 </button>
-                            </td>
-                            <td class="px-4 sm:px-6 py-3.5 whitespace-nowrap">
-                                @if($commodity->expires_at)
-                                    @php $status = $commodity->expiry_status; $days = $commodity->days_until_expiry; @endphp
-                                    <span class="inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-xs font-medium
-                                            {{ $status === 'expired'  ? 'bg-error-50 text-error-700 dark:bg-error-500/15 dark:text-error-400' : '' }}
-                                            {{ $status === 'critical' ? 'bg-error-50 text-error-700 dark:bg-error-500/15 dark:text-error-400' : '' }}
-                                            {{ $status === 'warning'  ? 'bg-warning-50 text-warning-700 dark:bg-warning-500/15 dark:text-warning-400' : '' }}
-                                            {{ $status === 'ok'       ? 'bg-gray-50 text-gray-500 dark:bg-white/5 dark:text-gray-400' : '' }}">
-                                            @if($status === 'expired')
-                                            <x-heroicon-o-x-circle class="w-3 h-3" /> Prošlé {{ $commodity->expires_at?->format('d.m.Y') }}
-                                        @elseif($status === 'critical')
-                                            <x-heroicon-o-exclamation-triangle class="w-3 h-3" /> Za {{ $days }}d
-                                        @elseif($status === 'warning')
-                                            <x-heroicon-o-clock class="w-3 h-3" /> Za {{ $days }}d
-                                        @else
-                                            {{ $commodity->expires_at->format('d.m.Y') }}
-                                        @endif
-                                        </span>
-                                @else
-                                    <span class="text-theme-sm text-gray-400 dark:text-gray-600">-</span>
-                                @endif
                             </td>
                             <td class="px-4 sm:px-6 py-3.5 whitespace-nowrap">
                                     <span
@@ -277,7 +258,7 @@
                  class="fixed inset-0 bg-gray-900/50 dark:bg-gray-900/70" wire:click="closeModal"></div>
             <div x-show="show"
                  x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100"
-                 class="relative w-full max-w-lg mx-4 max-h-[90vh] overflow-y-auto rounded-2xl bg-white p-6 shadow-xl dark:bg-gray-900">
+                 class="relative w-full max-w-lg mx-4 max-h-[90vh] overflow-y-auto rounded-2xl border border-gray-200 bg-white p-6 shadow-xl dark:border-gray-700 dark:bg-gray-800">
                 <h3 class="mb-5 text-lg font-semibold text-gray-800 dark:text-white">
                     {{ $editingId ? 'Upravit produkt' : 'Nový produkt' }}
                 </h3>
@@ -318,18 +299,11 @@
                             @error('description') <p class="mt-1 text-sm text-error-500">{{ $message }}</p> @enderror
                         </div>
 
-                        {{-- Barcode and expiry date side by side --}}
-                        <div class="grid grid-cols-2 gap-4">
-                            <div>
-                                <label class="mb-1.5 block text-theme-sm font-medium text-gray-700 dark:text-gray-400">Čárový kód</label>
-                                <input type="text" wire:model="barcode" class="h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-theme-sm text-gray-800 shadow-theme-xs placeholder:text-gray-400 focus:border-brand-300 focus:outline-hidden focus:ring-3 focus:ring-brand-500/10 dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:focus:border-brand-800" />
-                                @error('barcode') <p class="mt-1 text-sm text-error-500">{{ $message }}</p> @enderror
-                            </div>
-                            <div>
-                                <label class="mb-1.5 block text-theme-sm font-medium text-gray-700 dark:text-gray-400">Datum spotřeby</label>
-                                <input type="date" wire:model="expiresAt" class="h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-theme-sm text-gray-800 shadow-theme-xs focus:border-brand-300 focus:outline-hidden focus:ring-3 focus:ring-brand-500/10 dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:focus:border-brand-800" />
-                                @error('expiresAt') <p class="mt-1 text-sm text-error-500">{{ $message }}</p> @enderror
-                            </div>
+                        {{-- Barcode --}}
+                        <div>
+                            <label class="mb-1.5 block text-theme-sm font-medium text-gray-700 dark:text-gray-400">Čárový kód</label>
+                            <input type="text" wire:model="barcode" class="h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-theme-sm text-gray-800 shadow-theme-xs placeholder:text-gray-400 focus:border-brand-300 focus:outline-hidden focus:ring-3 focus:ring-brand-500/10 dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:focus:border-brand-800" />
+                            @error('barcode') <p class="mt-1 text-sm text-error-500">{{ $message }}</p> @enderror
                         </div>
 
                         <div>
