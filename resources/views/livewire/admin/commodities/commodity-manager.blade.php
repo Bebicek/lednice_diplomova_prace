@@ -89,7 +89,6 @@
                         <x-datagrid.sort-header field="category_id" label="Kategorie" :sort-by="$sortBy" :sort-direction="$sortDirection" />
                         <x-datagrid.sort-header field="price" label="Cena" :sort-by="$sortBy" :sort-direction="$sortDirection" />
                         <x-datagrid.sort-header field="is_active" label="Stav" :sort-by="$sortBy" :sort-direction="$sortDirection" />
-                        <th class="px-6 py-3 font-medium text-gray-500 text-theme-xs dark:text-gray-400 text-start">Spotřeba</th>
                         <x-datagrid.sort-header field="created_at" label="Přidáno" :sort-by="$sortBy" :sort-direction="$sortDirection" />
                         <x-datagrid.sort-header field="updated_at" label="Upraveno" :sort-by="$sortBy" :sort-direction="$sortDirection" />
                         <th class="pl-6 pr-4 py-3 w-px font-medium text-gray-500 text-theme-xs dark:text-gray-400 text-start">
@@ -146,28 +145,6 @@
                                             : 'bg-red-50 text-red-700 dark:bg-red-500/15 dark:text-red-500' }}">
                                     {{ $commodity->is_active ? 'Aktivní' : 'Neaktivní' }}
                                 </button>
-                            </td>
-                            <td class="px-4 sm:px-6 py-3.5 whitespace-nowrap">
-                                        @php $status = $commodity->expiry_status; $days = $commodity->days_until_expiry; $expiryDate = $commodity->fridge_expiry_date; @endphp
-                                @if($expiryDate)
-                                    <span class="inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-xs font-medium
-                                            {{ $status === 'expired'  ? 'bg-error-50 text-error-700 dark:bg-error-500/15 dark:text-error-400' : '' }}
-                                            {{ $status === 'critical' ? 'bg-error-50 text-error-700 dark:bg-error-500/15 dark:text-error-400' : '' }}
-                                            {{ $status === 'warning'  ? 'bg-warning-50 text-warning-700 dark:bg-warning-500/15 dark:text-warning-400' : '' }}
-                                            {{ $status === 'ok'       ? 'bg-gray-50 text-gray-500 dark:bg-white/5 dark:text-gray-400' : '' }}">
-                                        @if($status === 'expired')
-                                            <x-heroicon-o-x-circle class="w-3 h-3" /> Prošlé {{ $expiryDate->format('d.m.Y') }}
-                                        @elseif($status === 'critical')
-                                            <x-heroicon-o-exclamation-triangle class="w-3 h-3" /> Za {{ $days }}d
-                                        @elseif($status === 'warning')
-                                            <x-heroicon-o-clock class="w-3 h-3" /> Za {{ $days }}d
-                                        @else
-                                            {{ $expiryDate->format('d.m.Y') }}
-                                        @endif
-                                    </span>
-                                @else
-                                    <span class="text-theme-sm text-gray-400 dark:text-gray-600">-</span>
-                                @endif
                             </td>
                             <td class="px-4 sm:px-6 py-3.5 whitespace-nowrap">
                                     <span
