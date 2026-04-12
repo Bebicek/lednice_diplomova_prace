@@ -1,5 +1,5 @@
 <div>
-    <x-common.page-breadcrumb :pageTitle="'Dashboard'" />
+    <x-common.page-breadcrumb :pageTitle="'Přehled'" />
 
     {{-- Stats cards --}}
     <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4 md:gap-6">
