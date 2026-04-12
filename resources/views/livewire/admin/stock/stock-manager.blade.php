@@ -381,7 +381,7 @@
                                     @endif
                                 </td>
                                 <td class="px-4 sm:px-6 py-3.5 whitespace-nowrap">
-                                    <span class="text-theme-sm font-semibold {{ $typeInfo['color'] }}">{{ $typeInfo['sign'] }} {{ $movement->quantity }} ks</span>
+                                    <span class="text-theme-sm font-semibold {{ $typeInfo['color'] }}">{{ $typeInfo['sign'] }} {{ abs($movement->quantity) }} ks</span>
                                 </td>
                                 <td class="px-4 sm:px-6 py-3.5 whitespace-nowrap">
                                     <span class="text-theme-sm text-gray-500 dark:text-gray-400">{{ $movement->user?->name ?? '—' }}</span>

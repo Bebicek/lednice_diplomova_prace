@@ -165,7 +165,7 @@
                             </p>
                             <p class="text-theme-xs text-gray-500 dark:text-gray-400">
                                 Organizátor: {{ $lunch->organizer->name }}
-                                · {{ $lunch->participants->count() }} {{ $lunch->participants->count() == 1 ? 'účastník' : ($lunch->participants->count() <= 4 ? 'účastníci' : 'účastníků') }}
+                                - {{ $lunch->participants->count() }} {{ $lunch->participants->count() == 1 ? 'účastník' : ($lunch->participants->count() <= 4 ? 'účastníci' : 'účastníků') }}
                             </p>
                         </div>
                         <div class="shrink-0">
