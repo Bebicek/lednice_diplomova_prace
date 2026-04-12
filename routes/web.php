@@ -6,6 +6,7 @@ use App\Livewire\Admin\Categories\CategoryManager;
 use App\Livewire\Admin\Commodities\CommodityManager;
 use App\Livewire\Admin\Expiry\ExpiryManager;
 use App\Livewire\Admin\Lunches\LunchManager;
+use App\Livewire\Admin\Settings\SettingsManager;
 use App\Livewire\Admin\Stock\StockManager;
 use App\Livewire\Admin\Users\UsersManager;
 use App\Livewire\Auth\Login;
@@ -60,6 +61,8 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
         ->name('expiry');
     Route::get('/lunches', LunchManager::class)
         ->name('lunches');
+    Route::get('/settings', SettingsManager::class)
+        ->name('settings');
 });
 
 
