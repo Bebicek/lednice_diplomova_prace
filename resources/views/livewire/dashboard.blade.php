@@ -80,10 +80,13 @@
                 <span class="flex items-center justify-center w-8 h-8 rounded-lg bg-brand-50 dark:bg-brand-500/10">
                     <x-heroicon-o-trophy class="w-4 h-4 text-brand-500" />
                 </span>
-                <div>
+                <div class="flex-1">
                     <h3 class="text-base font-semibold text-gray-800 dark:text-white/90">Nejkupovanější produkty</h3>
                     <p class="text-theme-xs text-gray-500 dark:text-gray-400">Tvoje top 3 za celou dobu</p>
                 </div>
+                <a href="{{ route('catalog') }}" class="text-theme-xs font-medium text-brand-500 hover:text-brand-600">
+                    Přejít do katalogu
+                </a>
             </div>
 
             <div class="px-6 py-4">
