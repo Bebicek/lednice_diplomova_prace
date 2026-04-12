@@ -82,7 +82,6 @@
                 </span>
                 <div class="flex-1">
                     <h3 class="text-base font-semibold text-gray-800 dark:text-white/90">Nejkupovanější produkty</h3>
-                    <p class="text-theme-xs text-gray-500 dark:text-gray-400">Tvoje top 3 za celou dobu</p>
                 </div>
                 <a href="{{ route('catalog') }}" class="text-theme-xs font-medium text-brand-500 hover:text-brand-600">
                     Přejít do katalogu
@@ -160,9 +159,6 @@
             <div class="px-6 py-4">
                 @forelse($recentLunches as $lunch)
                     <div class="flex items-center gap-4 {{ !$loop->last ? 'mb-4 pb-4 border-b border-gray-100 dark:border-gray-800' : '' }}">
-                        <div class="flex items-center justify-center w-10 h-10 rounded-xl bg-warning-50 dark:bg-warning-500/10 shrink-0">
-                            <x-heroicon-o-cake class="w-5 h-5 text-warning-500" />
-                        </div>
                         <div class="flex-1 min-w-0">
                             <p class="text-theme-sm font-medium text-gray-800 dark:text-white/90 truncate">
                                 {{ $lunch->restaurant_name }}
