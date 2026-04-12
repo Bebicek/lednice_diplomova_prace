@@ -148,23 +148,23 @@
                                 </button>
                             </td>
                             <td class="px-4 sm:px-6 py-3.5 whitespace-nowrap">
-                                @if($commodity->expires_at)
-                                    @php $status = $commodity->expiry_status; $days = $commodity->days_until_expiry; @endphp
+                                        @php $status = $commodity->expiry_status; $days = $commodity->days_until_expiry; $expiryDate = $commodity->fridge_expiry_date; @endphp
+                                @if($expiryDate)
                                     <span class="inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-xs font-medium
                                             {{ $status === 'expired'  ? 'bg-error-50 text-error-700 dark:bg-error-500/15 dark:text-error-400' : '' }}
                                             {{ $status === 'critical' ? 'bg-error-50 text-error-700 dark:bg-error-500/15 dark:text-error-400' : '' }}
                                             {{ $status === 'warning'  ? 'bg-warning-50 text-warning-700 dark:bg-warning-500/15 dark:text-warning-400' : '' }}
                                             {{ $status === 'ok'       ? 'bg-gray-50 text-gray-500 dark:bg-white/5 dark:text-gray-400' : '' }}">
-                                            @if($status === 'expired')
-                                            <x-heroicon-o-x-circle class="w-3 h-3" /> Prošlé {{ $commodity->expires_at?->format('d.m.Y') }}
+                                        @if($status === 'expired')
+                                            <x-heroicon-o-x-circle class="w-3 h-3" /> Prošlé {{ $expiryDate->format('d.m.Y') }}
                                         @elseif($status === 'critical')
                                             <x-heroicon-o-exclamation-triangle class="w-3 h-3" /> Za {{ $days }}d
                                         @elseif($status === 'warning')
                                             <x-heroicon-o-clock class="w-3 h-3" /> Za {{ $days }}d
                                         @else
-                                            {{ $commodity->expires_at->format('d.m.Y') }}
+                                            {{ $expiryDate->format('d.m.Y') }}
                                         @endif
-                                        </span>
+                                    </span>
                                 @else
                                     <span class="text-theme-sm text-gray-400 dark:text-gray-600">-</span>
                                 @endif
@@ -322,18 +322,11 @@
                             @error('description') <p class="mt-1 text-sm text-error-500">{{ $message }}</p> @enderror
                         </div>
 
-                        {{-- Barcode and expiry date side by side --}}
-                        <div class="grid grid-cols-2 gap-4">
-                            <div>
-                                <label class="mb-1.5 block text-theme-sm font-medium text-gray-700 dark:text-gray-400">Čárový kód</label>
-                                <input type="text" wire:model="barcode" class="h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-theme-sm text-gray-800 shadow-theme-xs placeholder:text-gray-400 focus:border-brand-300 focus:outline-hidden focus:ring-3 focus:ring-brand-500/10 dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:focus:border-brand-800" />
-                                @error('barcode') <p class="mt-1 text-sm text-error-500">{{ $message }}</p> @enderror
-                            </div>
-                            <div>
-                                <label class="mb-1.5 block text-theme-sm font-medium text-gray-700 dark:text-gray-400">Datum spotřeby</label>
-                                <input type="date" wire:model="expiresAt" class="h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-theme-sm text-gray-800 shadow-theme-xs focus:border-brand-300 focus:outline-hidden focus:ring-3 focus:ring-brand-500/10 dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:focus:border-brand-800" />
-                                @error('expiresAt') <p class="mt-1 text-sm text-error-500">{{ $message }}</p> @enderror
-                            </div>
+                        {{-- Barcode --}}
+                        <div>
+                            <label class="mb-1.5 block text-theme-sm font-medium text-gray-700 dark:text-gray-400">Čárový kód</label>
+                            <input type="text" wire:model="barcode" class="h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-theme-sm text-gray-800 shadow-theme-xs placeholder:text-gray-400 focus:border-brand-300 focus:outline-hidden focus:ring-3 focus:ring-brand-500/10 dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:focus:border-brand-800" />
+                            @error('barcode') <p class="mt-1 text-sm text-error-500">{{ $message }}</p> @enderror
                         </div>
 
                         <div>

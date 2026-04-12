@@ -550,6 +550,22 @@
                                 @error('operationQuantity') <p class="mt-1 text-sm text-error-500">{{ $message }}</p> @enderror
                             </div>
 
+                            {{-- Expiry date --}}
+                            @if(in_array($operationType, ['receipt', 'transfer']))
+                                <div>
+                                    <label class="mb-1.5 block text-theme-sm font-medium text-gray-700 dark:text-gray-400">
+                                        Datum spotřeby
+                                        <span class="ml-1 font-normal text-gray-400 dark:text-gray-500">(volitelné)</span>
+                                    </label>
+                                    <input type="date" wire:model="operationExpiresAt"
+                                           class="h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-theme-sm text-gray-800 shadow-theme-xs focus:border-brand-300 focus:outline-hidden focus:ring-3 focus:ring-brand-500/10 dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:focus:border-brand-800" />
+                                    @if($operationType === 'transfer')
+                                        <p class="mt-1 text-xs text-gray-400 dark:text-gray-500">Pokud nevyplníte, použije se datum ze skladu.</p>
+                                    @endif
+                                    @error('operationExpiresAt') <p class="mt-1 text-sm text-error-500">{{ $message }}</p> @enderror
+                                </div>
+                            @endif
+
                             {{-- Opration description --}}
                             <div class="rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 dark:border-gray-700 dark:bg-gray-800/50">
                                 <p class="text-theme-xs text-gray-500 dark:text-gray-400">

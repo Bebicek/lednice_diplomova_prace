@@ -37,6 +37,7 @@ class StockManager extends Component
     public int $operationMaxQuantity = 9999;
     public int $operationWarehouseMax = 0;
     public int $operationFridgeMax = 0;
+    public string $operationExpiresAt = '';
 
     // Lifycycle hooks for reset pagination
     public function updatingSearch(): void
@@ -87,6 +88,7 @@ class StockManager extends Component
         $this->operationWarehouseMax = 0;
         $this->operationFridgeMax  = 0;
         $this->operationMaxQuantity  = 9999;
+        $this->operationExpiresAt = '';
 
         $this->showOperationModal = true;
         $this->resetValidation();
@@ -105,6 +107,7 @@ class StockManager extends Component
         $this->operationWarehouseMax = $commodity->warehouse_quantity;
         $this->operationFridgeMax  = $commodity->fridge_quantity;
         $this->operationMaxQuantity  = $this->resolveMax();
+        $this->operationExpiresAt = '';
 
         $this->showOperationModal = true;
         $this->resetValidation();
@@ -164,6 +167,7 @@ class StockManager extends Component
         $this->operationMaxQuantity = 9999;
         $this->operationWarehouseMax = 0;
         $this->operationFridgeMax = 0;
+        $this->operationExpiresAt = '';
         $this->resetValidation();
     }
 
@@ -176,6 +180,10 @@ class StockManager extends Component
         }
 
         $rules['operationQuantity'] = ['required', 'integer', 'min:1', 'max:' . $this->operationMaxQuantity];
+
+        if (in_array($this->operationType, ['receipt', 'transfer'])) {
+            $rules['operationExpiresAt'] = ['nullable', 'date'];
+        }
 
         $this->validate($rules, [
             'operationCommodityId.required' => 'Vyberte produkt.',
@@ -226,10 +234,15 @@ class StockManager extends Component
 
     private function processReceipt(): void
     {
-        Stock::firstOrCreate(
+        $stock = Stock::firstOrCreate(
             ['commodity_id' => $this->operationCommodityId, 'location' => 'warehouse'],
             ['quantity' => 0]
-        )->increment('quantity', $this->operationQuantity);
+        );
+        $stock->increment('quantity', $this->operationQuantity);
+
+        if ($this->operationExpiresAt) {
+            $stock->update(['expires_at' => $this->operationExpiresAt]);
+        }
 
         StockMovement::create([
             'commodity_id' => $this->operationCommodityId,
@@ -254,10 +267,17 @@ class StockManager extends Component
 
         $warehouseStock->decrement('quantity', $this->operationQuantity);
 
-        Stock::firstOrCreate(
+        $fridgeStock = Stock::firstOrCreate(
             ['commodity_id' => $this->operationCommodityId, 'location' => 'fridge'],
             ['quantity' => 0]
-        )->increment('quantity', $this->operationQuantity);
+        );
+        $fridgeStock->increment('quantity', $this->operationQuantity);
+
+        // Use explicitly entered date, or fall back to the warehouse expiry date
+        $expiresAt = $this->operationExpiresAt ?: $warehouseStock->expires_at?->format('Y-m-d');
+        if ($expiresAt) {
+            $fridgeStock->update(['expires_at' => $expiresAt]);
+        }
 
         StockMovement::create([
             'commodity_id' => $this->operationCommodityId,

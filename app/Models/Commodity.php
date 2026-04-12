@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -18,7 +17,6 @@ class Commodity extends Model
         'description',
         'image_path',
         'barcode',
-        'expires_at',
         'is_active',
         'category_id',
     ];
@@ -28,7 +26,6 @@ class Commodity extends Model
         return [
             'price' => 'integer',
             'is_active' => 'boolean',
-            'expires_at' => 'date',
         ];
     }
 
@@ -76,29 +73,36 @@ class Commodity extends Model
         return $this->stock()->where('location', 'warehouse')->value('quantity') ?? 0;
     }
 
-    // Returns true if the product is past its expiry date
+    // Returns the fridge stock record (delegating expiry info)
+    private function fridgeStock(): ?Stock
+    {
+        if ($this->relationLoaded('stock')) {
+            return $this->stock->where('location', 'fridge')->first();
+        }
+        return $this->stock()->where('location', 'fridge')->first();
+    }
+
+    // Returns the expiry date of the fridge stock (null if not set)
+    public function getFridgeExpiryDateAttribute()
+    {
+        return $this->fridgeStock()?->expires_at;
+    }
+
+    // Returns true if the fridge stock is past its expiry date
     public function getIsExpiredAttribute(): bool
     {
-        return $this->expires_at !== null && $this->expires_at->isPast();
+        return $this->fridgeStock()?->is_expired ?? false;
     }
 
-    // Returns days until expiry (negative = already expired, null = no expiry set)
+    // Returns days until fridge stock expiry (negative = expired, null = no date)
     public function getDaysUntilExpiryAttribute(): ?int
     {
-        if ($this->expires_at === null) {
-            return null;
-        }
-        return (int) now()->startOfDay()->diffInDays($this->expires_at->startOfDay(), false);
+        return $this->fridgeStock()?->days_until_expiry;
     }
 
-    // Returns expiry status: 'expired' | 'critical' (≤3 days) | 'warning' (≤7 days) | 'ok' | null
+    // Returns expiry status based on fridge stock: 'expired' | 'critical' | 'warning' | 'ok' | null
     public function getExpiryStatusAttribute(): ?string
     {
-        $days = $this->days_until_expiry;
-        if ($days === null) return null;
-        if ($days < 0)  return 'expired';
-        if ($days <= 3) return 'critical';
-        if ($days <= 7) return 'warning';
-        return 'ok';
+        return $this->fridgeStock()?->expiry_status;
     }
 }
