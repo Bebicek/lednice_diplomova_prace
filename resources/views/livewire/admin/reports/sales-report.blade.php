@@ -4,8 +4,10 @@
     {{-- Date range bar --}}
     <div class="mb-6 flex flex-wrap items-center gap-3 rounded-2xl border border-gray-200 bg-white px-5 py-3.5 dark:border-gray-800 dark:bg-white/[0.03]">
         <span class="text-theme-sm font-medium text-gray-600 dark:text-gray-400">Období:</span>
+
+        {{-- Preset buttons --}}
         <div class="flex flex-wrap gap-2">
-            @foreach(['month' => 'Tento měsíc', 'quarter' => 'Čtvrtletí', 'year' => 'Tento rok', 'custom' => 'Vlastní'] as $preset => $label)
+            @foreach(['month' => 'Tento měsíc', 'quarter' => 'Čtvrtletí', 'year' => 'Tento rok'] as $preset => $label)
                 <button wire:click="setPreset('{{ $preset }}')"
                         class="rounded-lg px-3 py-1.5 text-theme-xs font-medium transition-colors
                             {{ $datePreset === $preset
@@ -16,23 +18,49 @@
             @endforeach
         </div>
 
-        @if($datePreset === 'custom')
-            <div class="flex items-center gap-2 ml-1">
-                <input type="text"
-                       placeholder="Od"
-                       x-init="flatpickr($el, { dateFormat: 'Y-m-d', locale: 'cs', onChange: (d, str) => @this.set('customFrom', str) })"
-                       class="h-9 w-36 rounded-lg border border-gray-300 bg-transparent px-3 text-theme-xs text-gray-800 placeholder:text-gray-400 focus:border-brand-300 focus:outline-none focus:ring-2 focus:ring-brand-500/10 dark:border-gray-700 dark:text-white/90" />
-                <span class="text-gray-400">–</span>
-                <input type="text"
-                       placeholder="Do"
-                       x-init="flatpickr($el, { dateFormat: 'Y-m-d', locale: 'cs', onChange: (d, str) => @this.set('customTo', str) })"
-                       class="h-9 w-36 rounded-lg border border-gray-300 bg-transparent px-3 text-theme-xs text-gray-800 placeholder:text-gray-400 focus:border-brand-300 focus:outline-none focus:ring-2 focus:ring-brand-500/10 dark:border-gray-700 dark:text-white/90" />
-            </div>
-        @endif
+        <span class="text-gray-300 dark:text-gray-700 select-none">|</span>
 
-        <span class="ml-auto text-theme-xs text-gray-400">
-            {{ $from->format('d. m. Y') }} – {{ $to->format('d. m. Y') }}
-        </span>
+        {{-- Flatpickr range picker.
+        wire:key forces re-init when dates change --}}
+        <div wire:ignore
+             wire:key="datepicker-{{ $datePreset }}-{{ $from->format('Ymd') }}-{{ $to->format('Ymd') }}"
+             x-data="{
+                 init() {
+                     const wire = $wire;
+                     flatpickr(this.$refs.rangeInput, {
+                         mode: 'range',
+                         dateFormat: 'Y-m-d',
+                         altInput: true,
+                         altFormat: 'd. m. Y',
+                         disableMobile: true,
+                         defaultDate: ['{{ $from->format('Y-m-d') }}', '{{ $to->format('Y-m-d') }}'],
+                         onChange: function(dates) {
+                             if (dates.length === 2) {
+                                 var fmt = function(d) {
+                                     return [
+                                         d.getFullYear(),
+                                         String(d.getMonth()+1).padStart(2,'0'),
+                                         String(d.getDate()).padStart(2,'0')
+                                     ].join('-');
+                                 };
+                                 wire.call('setCustomRange', fmt(dates[0]), fmt(dates[1]));
+                             }
+                         }
+                     });
+                 }
+             }">
+            <div class="relative">
+                <span class="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none z-10">
+                    <x-heroicon-o-calendar-days class="w-4 h-4 text-gray-400" />
+                </span>
+                <input type="text" x-ref="rangeInput"
+                       placeholder="Vyberte vlastní rozmezí..."
+                       class="h-9 w-64 cursor-pointer rounded-lg border pl-9 pr-3 text-theme-xs shadow-theme-xs focus:outline-none focus:ring-2 focus:ring-brand-500/10
+                           {{ $datePreset === 'custom'
+                               ? 'border-brand-400 bg-brand-50 text-brand-700 dark:border-brand-600 dark:bg-brand-500/10 dark:text-brand-300'
+                               : 'border-gray-300 bg-transparent text-gray-700 hover:border-gray-400 dark:border-gray-700 dark:text-gray-300' }}" />
+            </div>
+        </div>
     </div>
 
     {{-- Table --}}

@@ -23,6 +23,13 @@ class SalesReport extends Component
         $this->datePreset = $preset;
     }
 
+    public function setCustomRange(string $from, string $to): void
+    {
+        $this->customFrom = $from;
+        $this->customTo = $to;
+        $this->datePreset = 'custom';
+    }
+
     private function getDateRange(): array
     {
         return match ($this->datePreset) {
