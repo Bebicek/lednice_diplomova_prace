@@ -30,7 +30,7 @@
             <!-- Search -->
             <div class="relative flex-1">
                 <span class="absolute -translate-y-1/2 left-4 top-1/2 pointer-events-none">
-                    <x-heroicon-o-magnifying-glass class="w-5 h-5 fill-gray-500 dark:fill-gray-400" />
+                    <x-heroicon-o-magnifying-glass class="w-5 h-5 text-gray-500 dark:text-gray-400" />
                 </span>
                 <input type="text" wire:model.live.debounce.300ms="search" placeholder="Hledat uživatele..."
                        class="h-[42px] w-full rounded-lg border border-gray-300 bg-transparent py-2.5 pl-[42px] pr-4 text-sm text-gray-800 shadow-theme-xs placeholder:text-gray-400 focus:border-brand-300 focus:outline-none focus:ring-2 focus:ring-brand-500/10 dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30 dark:focus:border-brand-800 xl:w-[300px]" />

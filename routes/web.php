@@ -2,6 +2,7 @@
 
 use App\Livewire\Admin\Accounts\AccountsManager;
 use App\Livewire\Admin\AdminDashboard;
+use App\Livewire\Admin\Reports\SalesReport;
 use App\Livewire\Admin\Categories\CategoryManager;
 use App\Livewire\Admin\Commodities\CommodityManager;
 use App\Livewire\Admin\Expiry\ExpiryManager;
@@ -63,6 +64,8 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
         ->name('lunches');
     Route::get('/settings', SettingsManager::class)
         ->name('settings');
+    Route::get('/reports', SalesReport::class)
+        ->name('reports');
 });
 
 

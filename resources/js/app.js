@@ -4,7 +4,9 @@ import ApexCharts from 'apexcharts';
 
 // flatpickr
 import flatpickr from 'flatpickr';
+import { Czech } from 'flatpickr/dist/l10n/cs.js';
 import 'flatpickr/dist/flatpickr.min.css';
+flatpickr.localize(Czech);
 // FullCalendar
 import { Calendar } from '@fullcalendar/core';
 

@@ -179,7 +179,6 @@
                                         </button>
                                         @if($group->unpaid_count > 0)
                                             <button wire:click="markAllAsPaid({{ $group->user_id }}, {{ $group->creditor_id ?? 'null' }})"
-{{--                                                    TODO: REPLACE THE CONFIRM WITH SOMETHING BETTER OR STYLISH BECAUASE NOT IT LOOKS TERRIBLE HOW IT IS--}}
                                                     wire:confirm="Označit všechny nezaplacené dluhy tohoto páru jako zaplacené?"
                                                     class="flex w-full px-3 py-2 text-left text-theme-xs font-medium text-success-600 rounded-lg hover:bg-success-50 hover:text-success-700 dark:text-success-400 dark:hover:bg-success-500/10">
                                                 <x-heroicon-o-check-circle class="w-3.5 h-3.5 mr-2 mt-px" />
@@ -411,7 +410,6 @@
                     @php $unpaidInDetail = $detailDebts->where('is_paid', false)->count(); @endphp
                     @if($unpaidInDetail > 0)
                         <button wire:click="markAllAsPaid({{ $detailUserId }}, {{ $detailCreditorId ?? 'null' }})"
-{{--                    TODO: REPLACE THE CONFIRM WITH SOMETHING BETTER OR STYLISH BECAUASE NOT IT LOOKS TERRIBLE HOW IT IS--}}
                                 wire:confirm="Označit všechny nezaplacené dluhy jako zaplacené?"
                                 class="inline-flex items-center gap-2 rounded-lg bg-success-500 px-4 py-2.5 text-theme-sm font-medium text-white hover:bg-success-600">
                             <x-heroicon-o-check-circle class="w-4 h-4" />
