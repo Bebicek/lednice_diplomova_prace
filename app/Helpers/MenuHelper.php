@@ -48,6 +48,11 @@ class MenuHelper
                 'path' => '/admin/lunches',
             ],
             [
+                'icon' => 'reports',
+                'name' => 'Přehled prodejů',
+                'path' => '/admin/reports',
+            ],
+            [
                 // TODO: Maybe delete it later in project and let it be only in a profile icon to click on settings idk
                 'icon' => 'settings',
                 'name' => 'Nastavení',
@@ -85,6 +90,7 @@ class MenuHelper
             'charts'       => 'heroicon-o-banknotes',
             'expiry'       => 'heroicon-o-clock',
             'lunches'      => 'heroicon-o-cake',
+            'reports'      => 'heroicon-o-document-chart-bar',
             'settings'     => 'heroicon-o-cog-6-tooth',
         ];
 
