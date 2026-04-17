@@ -332,9 +332,9 @@
             >
                 <x-heroicon-o-exclamation-triangle class="w-4 h-4" />
                 Nezaplacené
-                @if($unpaidDebts->count() > 0)
+                @if($creditorGroups->count() > 0)
                     <span class="inline-flex items-center justify-center rounded-full bg-error-50 px-1.5 py-0.5 text-theme-xs font-semibold text-error-600 dark:bg-error-500/15 dark:text-error-400">
-                        {{ $unpaidDebts->count() }}
+                        {{ $creditorGroups->count() }}
                     </span>
                 @endif
             </button>
