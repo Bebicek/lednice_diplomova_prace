@@ -68,6 +68,14 @@ RUN composer dump-autoload --optimize \
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache \
     && chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
 
-# create storage link
+# Keep a copy of public/ inside the image so the entrypoint can sync it
+# into the shared public-data volume on every container start
+RUN mkdir -p /var/www/html-image && cp -a /var/www/html/public /var/www/html-image/public
+
+# Entrypoint syncs public assets from image → volume on startup
+COPY docker/php/entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
 EXPOSE 9000
+ENTRYPOINT ["/entrypoint.sh"]
 CMD ["php-fpm"]
