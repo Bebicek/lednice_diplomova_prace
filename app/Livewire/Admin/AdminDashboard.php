@@ -4,7 +4,6 @@ namespace App\Livewire\Admin;
 
 use App\Models\Commodity;
 use App\Models\Debt;
-use App\Models\Order;
 use App\Models\Setting;
 use App\Models\Stock;
 use App\Models\User;
@@ -54,28 +53,6 @@ class AdminDashboard extends Component
             ->limit(5)
             ->get();
 
-        // Revenue per month last 6 months
-        $revenueData = Order::select(
-                DB::raw('EXTRACT(YEAR FROM created_at)::int as year'),
-                DB::raw('EXTRACT(MONTH FROM created_at)::int as month'),
-                DB::raw('SUM(total_amount) as total')
-            )
-            ->where('created_at', '>=', now()->subMonths(5)->startOfMonth())
-            ->groupBy(DB::raw('EXTRACT(YEAR FROM created_at)'), DB::raw('EXTRACT(MONTH FROM created_at)'))
-            ->orderBy(DB::raw('EXTRACT(YEAR FROM created_at)'))
-            ->orderBy(DB::raw('EXTRACT(MONTH FROM created_at)'))
-            ->get()
-            ->keyBy(fn($row) => $row->year . '-' . str_pad($row->month, 2, '0', STR_PAD_LEFT));
-
-        $revenueMonths = [];
-        $revenueValues = [];
-        for ($i = 5; $i >= 0; $i--) {
-            $date = now()->subMonths($i);
-            $key = $date->year . '-' . str_pad($date->month, 2, '0', STR_PAD_LEFT);
-            $revenueMonths[] = $date->locale('cs')->isoFormat('MMM YY');
-            $revenueValues[] = round(($revenueData[$key]->total ?? 0) / 100, 2);
-        }
-
         // Top 5 debtors
         $topDebtors = Debt::where('is_paid', false)
             ->whereNotNull('user_id')
@@ -94,8 +71,6 @@ class AdminDashboard extends Component
             'emptyFridgeProducts' => $emptyFridgeProducts,
             'emptyFridgeCount' => $emptyFridgeCount,
             'recentlyPaidDebts' => $recentlyPaidDebts,
-            'revenueMonths' => $revenueMonths,
-            'revenueValues' => $revenueValues,
             'topDebtors' => $topDebtors,
         ]);
     }

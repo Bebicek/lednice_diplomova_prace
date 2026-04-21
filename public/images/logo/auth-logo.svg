@@ -9,7 +9,7 @@
 <g filter="url(#filter2_d_3903_56743)">
 <path d="M32.0078 16.4189C32.0078 15.0236 33.1389 13.8926 34.5341 13.8926C35.9294 13.8926 37.0604 15.0236 37.0604 16.4189V35.3663C37.0604 36.7615 35.9294 37.8926 34.5341 37.8926C33.1389 37.8926 32.0078 36.7615 32.0078 35.3663V16.4189Z" fill="white" fill-opacity="0.7" shape-rendering="crispEdges"/>
 </g>
-<text x="58" y="32" font-family="Inter, system-ui, sans-serif" font-size="38" font-weight="600" fill="white">Lednička</text>
+<text x="58" y="33" font-family="Inter, system-ui, sans-serif" font-size="27" font-weight="600" fill="white">Lednička</text>
 <defs>
 <filter id="filter0_d_3903_56743" x="12.0615" y="9.60596" width="7.05273" height="29.7896" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
 <feFlood flood-opacity="0" result="BackgroundImageFix"/>
