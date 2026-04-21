@@ -81,11 +81,11 @@
             Date Picker Input
         </label>
 
-        <x-form.date-picker 
-            id="date_pick" 
+        <x-ui.datepicker
+            id="date_pick"
             name="date_pick"
-            placeholder="Date Picker" 
-            defaultDate="{{ now()->format('Y-m-d') }}" 
+            placeholder="Date Picker"
+            defaultDate="{{ now()->format('Y-m-d') }}"
         />
     </div>
 
