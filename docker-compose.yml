@@ -6,6 +6,7 @@ services:
     container_name: lednicka-app
     restart: unless-stopped
     volumes:
+      - ./.env:/var/www/html/.env
       - storage-data:/var/www/html/storage/app
       - public-data:/var/www/html/public
     environment:
