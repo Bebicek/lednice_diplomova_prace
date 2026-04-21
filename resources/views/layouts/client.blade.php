@@ -64,7 +64,7 @@
             <div class="flex justify-between h-16">
                 {{-- Logo + Nav Links --}}
                 <div class="flex items-center">
-                    <a href="{{ route('dashboard') }}" class="flex items-center gap-2 text-xl font-semibold text-brand-500">
+                    <a href="{{ route('dashboard') }}" class="flex items-center gap-2 text-xl font-semibold text-brand-500 dark:text-white">
                         <svg class="w-7 h-7" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <rect width="24" height="24" rx="6" fill="currentColor" fill-opacity="0.1"/>
                             <rect x="5" y="3" width="14" height="18" rx="2" stroke="currentColor" stroke-width="1.5"/>
