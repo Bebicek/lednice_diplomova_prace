@@ -315,6 +315,13 @@
                                 </div>
                             @endif
                             <input type="file" wire:model="image" class="w-full text-theme-sm text-gray-500 file:mr-4 file:rounded-lg file:border-0 file:bg-brand-50 file:px-4 file:py-2 file:text-theme-sm file:font-medium file:text-brand-700 hover:file:bg-brand-100 dark:text-gray-400 dark:file:bg-brand-500/10 dark:file:text-brand-400" />
+                            <div wire:loading wire:target="image" class="mt-2 flex items-center gap-2 text-theme-sm text-gray-500 dark:text-gray-400">
+                                <svg class="h-4 w-4 animate-spin text-brand-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
+                                </svg>
+                                Nahrávám obrázek...
+                            </div>
                             @error('image') <p class="mt-1 text-sm text-error-500">{{ $message }}</p> @enderror
                         </div>
 
