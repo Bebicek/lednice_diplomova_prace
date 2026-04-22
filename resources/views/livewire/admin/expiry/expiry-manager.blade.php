@@ -154,7 +154,7 @@
                 @empty
                     <tr>
                         <td colspan="7" class="px-6 py-12 text-center">
-                            <x-heroicon-o-check-circle class="w-10 h-10 text-success-400 mx-auto mb-2" />
+                            <x-heroicon-o-check-circle class="w-10 h-10 text-gray-300 dark:text-gray-600 mx-auto mb-2" />
                             <p class="text-sm text-gray-500 dark:text-gray-400">Žádné produkty neodpovídají filtru</p>
                         </td>
                     </tr>
