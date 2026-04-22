@@ -7,11 +7,16 @@ use Illuminate\Support\Facades\Hash;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Rule;
 use Livewire\Component;
+use Livewire\WithPagination;
 use Spatie\Permission\Models\Role;
 
 #[Layout('layouts.app')]
 class UsersManager extends Component
 {
+    use WithPagination;
+
+    public int $perPage = 7;
+
     #[Rule('required|min:2|max:255')]
     public string $name = '';
 
@@ -53,6 +58,17 @@ class UsersManager extends Component
             $this->sortBy = $column;
             $this->sortDirection = 'asc';
         }
+        $this->resetPage();
+    }
+
+    public function updatingSearch(): void
+    {
+        $this->resetPage();
+    }
+
+    public function updatingFilterRole(): void
+    {
+        $this->resetPage();
     }
 
     public function toggleActive(int $id): void
@@ -174,7 +190,7 @@ class UsersManager extends Component
             }))
             ->when($this->filterRole, fn($q) => $q->whereHas('roles', fn($q) => $q->where('name', $this->filterRole)))
             ->orderBy($this->sortBy, $this->sortDirection)
-            ->get();
+            ->paginate($this->perPage);
 
         return view('livewire.admin.users.users-manager', [
             'users' => $users,

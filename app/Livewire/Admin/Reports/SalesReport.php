@@ -8,11 +8,16 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
+use Livewire\WithPagination;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
 #[Layout('layouts.app')]
 class SalesReport extends Component
 {
+    use WithPagination;
+
+    public int $perPage = 7;
+
     public string $datePreset = 'month'; // month, quarter, year, custom
     public string $customFrom = '';
     public string $customTo = '';
@@ -21,6 +26,7 @@ class SalesReport extends Component
     public function setPreset(string $preset): void
     {
         $this->datePreset = $preset;
+        $this->resetPage();
     }
 
     public function setCustomRange(string $from, string $to): void
@@ -28,6 +34,12 @@ class SalesReport extends Component
         $this->customFrom = $from;
         $this->customTo = $to;
         $this->datePreset = 'custom';
+        $this->resetPage();
+    }
+
+    public function updatingSearch(): void
+    {
+        $this->resetPage();
     }
 
     private function getDateRange(): array
@@ -156,14 +168,16 @@ class SalesReport extends Component
     public function render(): View
     {
         [$from, $to] = $this->getDateRange();
-        $rows = $this->buildQuery($from, $to)->get();
+        $allRows = $this->buildQuery($from, $to)->get();
+        $rows = $this->buildQuery($from, $to)->paginate($this->perPage);
 
         return view('livewire.admin.reports.sales-report', [
             'from' => $from,
             'to' => $to,
             'rows' => $rows,
-            'grandTotal' => $rows->sum('total_revenue'),
-            'grandQty' => $rows->sum('total_qty'),
+            'grandTotal' => $allRows->sum('total_revenue'),
+            'grandQty' => $allRows->sum('total_qty'),
+            'totalCount' => $allRows->count(),
         ]);
     }
 }

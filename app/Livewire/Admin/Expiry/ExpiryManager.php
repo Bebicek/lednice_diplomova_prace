@@ -12,9 +12,16 @@ class ExpiryManager extends Component
 {
     //filters all | expired | critical | warning | ok | none
     public string $filterStatus = 'all';
+    public int $page = 1;
+    public int $perPage = 7;
 
     public ?int $editingId = null;
     public string $editDate = '';
+
+    public function updatingFilterStatus(): void
+    {
+        $this->page = 1;
+    }
 
     public function openEdit(int $id): void
     {
@@ -77,9 +84,19 @@ class ExpiryManager extends Component
             ->get()
             ->sortBy(fn ($s) => $s->commodity?->name);
 
+        $allStocks = collect($stocks);
+        $total = $allStocks->count();
+        $lastPage = max(1, (int) ceil($total / $this->perPage));
+        $this->page = min($this->page, $lastPage);
+        $paginatedStocks = $allStocks->forPage($this->page, $this->perPage);
+
         return view('livewire.admin.expiry.expiry-manager', [
             'stats' => $stats,
-            'stocks' => $stocks,
+            'stocks' => $paginatedStocks,
+            'total' => $total,
+            'page' => $this->page,
+            'lastPage' => $lastPage,
+            'perPage' => $this->perPage,
         ]);
     }
 }

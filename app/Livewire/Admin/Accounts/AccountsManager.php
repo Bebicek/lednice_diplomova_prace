@@ -16,6 +16,8 @@ class AccountsManager extends Component
     public string $search = '';
     public string $filterStatus = '';   // '' | 'unpaid' | 'paid'
     public string $filterType = '';   // '' | 'system' | 'personal'
+    public int $page = 1;
+    public int $perPage = 7;
 
     public bool $showAddModal = false;
     public ?int $addUserId = null;
@@ -72,6 +74,21 @@ class AccountsManager extends Component
     }
 
     // Add manual debt
+    public function updatingSearch(): void
+    {
+        $this->page = 1;
+    }
+
+    public function updatingFilterStatus(): void
+    {
+        $this->page = 1;
+    }
+
+    public function updatingFilterType(): void
+    {
+        $this->page = 1;
+    }
+
     public function openAddModal(): void
     {
         $this->showAddModal = true;
@@ -215,7 +232,11 @@ class AccountsManager extends Component
 
     public function render(): View
     {
-        $groups = $this->buildGroups();
+        $allGroups = $this->buildGroups();
+        $total = $allGroups->count();
+        $lastPage = max(1, (int) ceil($total / $this->perPage));
+        $this->page = min($this->page, $lastPage);
+        $groups = $allGroups->forPage($this->page, $this->perPage);
 
         $stats = [
             'totalUnpaid' => Debt::where('is_paid', false)->sum('amount'),
@@ -251,6 +272,10 @@ class AccountsManager extends Component
             'detailDebts' => $detailDebts,
             'detailUser' => $detailUser,
             'detailCred' => $detailCred,
+            'total' => $total,
+            'page' => $this->page,
+            'lastPage' => $lastPage,
+            'perPage' => $this->perPage,
         ]);
     }
 }
