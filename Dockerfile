@@ -68,6 +68,9 @@ RUN composer dump-autoload --optimize \
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache \
     && chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
 
+# Create storage symlink (public/storage → ../storage/app/public)
+RUN php artisan storage:link
+
 # Keep a copy of public/ inside the image so the entrypoint can sync it
 # into the shared public-data volume on every container start
 RUN mkdir -p /var/www/html-image && cp -a /var/www/html/public /var/www/html-image/public
