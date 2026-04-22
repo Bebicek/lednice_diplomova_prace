@@ -170,7 +170,7 @@
                                 @else
                                     @if($group['is_system'])
                                         <span class="text-theme-xs text-gray-400 dark:text-gray-500 italic">
-                                    QR platba nedostupná — admin nemá nastaven bankovní účet
+                                    QR platba nedostupná — systémový bankovní účet není nastaven
                                 </span>
                                     @else
                                         <span class="text-theme-xs text-gray-500 dark:text-gray-400">

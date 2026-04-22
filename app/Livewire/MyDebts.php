@@ -3,7 +3,7 @@
 namespace App\Livewire;
 
 use App\Models\Debt;
-use App\Models\User;
+use App\Models\Setting;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
 
@@ -108,24 +108,30 @@ class MyDebts extends Component
         $totalUnpaid = $unpaidDebts->sum('amount');
         $totalIncoming = $incomingPayments->sum('amount');
 
-        // Admin bank account - used for system debts
-        $adminUser = User::role('admin')->first();
+        // System bank account from settings
+        $systemBankNumber = Setting::where('key', 'bank_account_number')->value('value') ?? '';
+        $systemBankCode = Setting::where('key', 'bank_code')->value('value') ?? '';
 
         // Group unpaid debts by creditor for the payment cards
         $creditorGroups = $unpaidDebts
             ->groupBy(fn($d) => $d->creditor_id ?? 'system')
-            ->map(function ($debts, $key) use ($adminUser) {
+            ->map(function ($debts, $key) use ($systemBankNumber, $systemBankCode) {
                 $isSystem = ($key === 'system');
                 $creditor = $isSystem ? null : $debts->first()->creditor;
                 $total = $debts->sum('amount');
                 $iban = null;
                 $qrUrl = null;
 
-                // Bank details source creditor (personal debt) or admin (system debt)
-                $bankHolder = $isSystem ? $adminUser : $creditor;
-
-                if ($bankHolder && !empty(trim((string) $bankHolder->bank_number)) && !empty(trim((string) $bankHolder->bank_code))) {
-                    $iban = $this->generateCzechIban($bankHolder->bank_code, $bankHolder->bank_number);
+                if ($isSystem) {
+                    if (!empty(trim($systemBankNumber)) && !empty(trim($systemBankCode))) {
+                        $iban = $this->generateCzechIban($systemBankCode, $systemBankNumber);
+                        if ($iban) {
+                            $spayd = $this->generateSpayd($iban, $total);
+                            $qrUrl = 'https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=' . urlencode($spayd);
+                        }
+                    }
+                } elseif ($creditor && !empty(trim((string) $creditor->bank_number)) && !empty(trim((string) $creditor->bank_code))) {
+                    $iban = $this->generateCzechIban($creditor->bank_code, $creditor->bank_number);
                     if ($iban) {
                         $spayd = $this->generateSpayd($iban, $total);
                         $qrUrl = 'https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=' . urlencode($spayd);
