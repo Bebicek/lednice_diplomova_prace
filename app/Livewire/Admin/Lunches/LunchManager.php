@@ -11,10 +11,12 @@ use Livewire\Component;
 #[Layout('layouts.app')]
 class LunchManager extends Component
 {
-    public string $search          = '';
-    public string $filterStatus    = ''; // '' | 'settled' | 'unsettled'
-    public string $sortBy          = 'created_at';
-    public string $sortDirection   = 'desc';
+    public string $search = '';
+    public string $filterStatus  = ''; // '' | 'settled' | 'unsettled'
+    public string $sortBy  = 'created_at';
+    public string $sortDirection = 'desc';
+    public int $page = 1;
+    public int $perPage = 7;
 
     public ?int $detailLunchId = null;
     public bool $hasDetailOpen = false;
@@ -30,6 +32,17 @@ class LunchManager extends Component
             $this->sortBy = $column;
             $this->sortDirection = 'asc';
         }
+        $this->page = 1;
+    }
+
+    public function updatingSearch(): void
+    {
+        $this->page = 1;
+    }
+
+    public function updatingFilterStatus(): void
+    {
+        $this->page = 1;
     }
 
     public function openDetail(int $lunchId): void
@@ -118,10 +131,19 @@ class LunchManager extends Component
             ])->find($this->detailLunchId);
         }
 
+        $total = $lunches->count();
+        $lastPage = max(1, (int) ceil($total / $this->perPage));
+        $this->page = min($this->page, $lastPage);
+        $paginatedLunches = $lunches->forPage($this->page, $this->perPage);
+
         return view('livewire.admin.lunches.lunch-manager', [
-            'lunches' => $lunches,
+            'lunches' => $paginatedLunches,
             'stats' => $stats,
             'detailLunch' => $detailLunch,
+            'total' => $total,
+            'page' => $this->page,
+            'lastPage' => $lastPage,
+            'perPage' => $this->perPage,
         ]);
     }
 }
