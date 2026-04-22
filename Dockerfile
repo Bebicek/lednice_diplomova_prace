@@ -69,7 +69,7 @@ RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cac
     && chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
 
 # Create storage symlink (public/storage → ../storage/app/public)
-RUN php artisan storage:link
+RUN ln -s ../storage/app/public public/storage
 
 # Keep a copy of public/ inside the image so the entrypoint can sync it
 # into the shared public-data volume on every container start
