@@ -315,13 +315,13 @@
 
                 <div class="flex flex-col sm:flex-row flex-1 min-h-0">
                     {{-- Image side --}}
-                    <div class="sm:w-2/5 shrink-0 overflow-hidden">
+                    <div class="sm:w-2/5 shrink-0 overflow-hidden bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
                         @if($sc->image_path)
                             <img src="{{ Storage::url($sc->image_path) }}"
                                  alt="{{ $sc->name }}"
-                                 class="w-full h-52 sm:h-full object-cover {{ $scOut ? 'opacity-60' : '' }}" />
+                                 class="w-full h-56 sm:h-72 object-contain p-4 {{ $scOut ? 'opacity-60' : '' }}" />
                         @else
-                            <div class="flex items-center justify-center w-full h-52 sm:h-full min-h-[200px] bg-gray-100 dark:bg-gray-800">
+                            <div class="flex items-center justify-center w-full h-56 sm:h-72 bg-gray-100 dark:bg-gray-800">
                                 <x-heroicon-o-photo class="w-16 h-16 text-gray-300 dark:text-gray-600" />
                             </div>
                         @endif
