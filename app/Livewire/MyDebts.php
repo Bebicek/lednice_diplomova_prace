@@ -44,6 +44,7 @@ class MyDebts extends Component
         $count = $query->count();
         $query->update(['is_paid' => true, 'paid_at' => now()]);
 
+        $this->dispatch('debt-updated');
         $this->dispatch('toast-success', message: "Označeno {$count} " . ($count === 1 ? 'dluh' : ($count <= 4 ? 'dluhy' : 'dluhů')) . ' jako zaplaceno.');
     }
 
