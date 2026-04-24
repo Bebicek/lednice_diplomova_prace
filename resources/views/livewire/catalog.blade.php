@@ -124,11 +124,11 @@
                         <div class="group flex flex-col rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-white/[0.03] overflow-hidden transition-shadow hover:shadow-md">
 
                             {{-- Image area --}}
-                            <button wire:click="openDetail({{ $commodity->id }})" class="relative block w-full focus:outline-none" type="button">
+                            <button wire:click="openDetail({{ $commodity->id }})" class="relative block w-full focus:outline-none bg-gray-50 dark:bg-gray-800/50" type="button">
                                 @if($commodity->image_path)
                                     <img src="{{ Storage::url($commodity->image_path) }}"
                                          alt="{{ $commodity->name }}"
-                                         class="w-full h-44 object-cover {{ $outOfStock ? 'opacity-50' : '' }}" />
+                                         class="w-full h-44 object-contain p-3 {{ $outOfStock ? 'opacity-50' : '' }}" />
                                 @else
                                     <div class="flex items-center justify-center w-full h-44 bg-gray-100 dark:bg-gray-800 {{ $outOfStock ? 'opacity-50' : '' }}">
                                         <x-heroicon-o-photo class="w-12 h-12 text-gray-300 dark:text-gray-600" />
