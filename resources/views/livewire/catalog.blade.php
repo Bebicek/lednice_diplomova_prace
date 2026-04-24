@@ -126,9 +126,14 @@
                             {{-- Image area --}}
                             <button wire:click="openDetail({{ $commodity->id }})" class="relative block w-full focus:outline-none bg-gray-50 dark:bg-gray-800/50" type="button">
                                 @if($commodity->image_path)
-                                    <img src="{{ Storage::url($commodity->image_path) }}"
-                                         alt="{{ $commodity->name }}"
-                                         class="w-full h-44 object-contain p-3 {{ $outOfStock ? 'opacity-50' : '' }}" />
+                                    <div x-data="{ loaded: false }" class="relative w-full h-44">
+                                        <div x-show="!loaded" class="absolute inset-0 animate-pulse bg-gray-200 dark:bg-gray-700 rounded"></div>
+                                        <img src="{{ Storage::url($commodity->image_path) }}"
+                                             alt="{{ $commodity->name }}"
+                                             x-show="loaded"
+                                             @load="loaded = true"
+                                             class="w-full h-44 object-contain p-3 {{ $outOfStock ? 'opacity-50' : '' }}" />
+                                    </div>
                                 @else
                                     <div class="flex items-center justify-center w-full h-44 bg-gray-100 dark:bg-gray-800 {{ $outOfStock ? 'opacity-50' : '' }}">
                                         <x-heroicon-o-photo class="w-12 h-12 text-gray-300 dark:text-gray-600" />
@@ -203,9 +208,14 @@
                             {{-- Image --}}
                             <button wire:click="openDetail({{ $commodity->id }})" type="button" class="shrink-0 focus:outline-none">
                                 @if($commodity->image_path)
-                                    <img src="{{ Storage::url($commodity->image_path) }}"
-                                         alt="{{ $commodity->name }}"
-                                         class="w-20 h-20 rounded-xl object-cover {{ $outOfStock ? 'opacity-50' : '' }}" />
+                                    <div x-data="{ loaded: false }" class="relative w-20 h-20">
+                                        <div x-show="!loaded" class="absolute inset-0 animate-pulse bg-gray-200 dark:bg-gray-700 rounded-xl"></div>
+                                        <img src="{{ Storage::url($commodity->image_path) }}"
+                                             alt="{{ $commodity->name }}"
+                                             x-show="loaded"
+                                             @load="loaded = true"
+                                             class="w-20 h-20 rounded-xl object-cover {{ $outOfStock ? 'opacity-50' : '' }}" />
+                                    </div>
                                 @else
                                     <div class="flex items-center justify-center w-20 h-20 rounded-xl bg-gray-100 dark:bg-gray-800 {{ $outOfStock ? 'opacity-50' : '' }}">
                                         <x-heroicon-o-photo class="w-8 h-8 text-gray-300 dark:text-gray-600" />
@@ -317,9 +327,14 @@
                     {{-- Image side --}}
                     <div class="sm:w-2/5 shrink-0 overflow-hidden bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
                         @if($sc->image_path)
-                            <img src="{{ Storage::url($sc->image_path) }}"
-                                 alt="{{ $sc->name }}"
-                                 class="w-full h-56 sm:h-72 object-contain p-4 {{ $scOut ? 'opacity-60' : '' }}" />
+                            <div x-data="{ loaded: false }" class="relative w-full h-56 sm:h-72">
+                                <div x-show="!loaded" class="absolute inset-0 animate-pulse bg-gray-200 dark:bg-gray-700"></div>
+                                <img src="{{ Storage::url($sc->image_path) }}"
+                                     alt="{{ $sc->name }}"
+                                     x-show="loaded"
+                                     @load="loaded = true"
+                                     class="w-full h-56 sm:h-72 object-contain p-4 {{ $scOut ? 'opacity-60' : '' }}" />
+                            </div>
                         @else
                             <div class="flex items-center justify-center w-full h-56 sm:h-72 bg-gray-100 dark:bg-gray-800">
                                 <x-heroicon-o-photo class="w-16 h-16 text-gray-300 dark:text-gray-600" />
