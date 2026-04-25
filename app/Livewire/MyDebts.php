@@ -88,21 +88,21 @@ class MyDebts extends Component
         $unpaidDebts = Debt::where('user_id', $userId)
             ->where('is_paid', false)
             ->where('is_accepted', true)
-            ->with(['order.items.commodity', 'lunch', 'creditor'])
+            ->with(['order.items.commodity', 'lunch.participants.items', 'lunch.participants.user', 'creditor'])
             ->latest()
             ->get();
 
         // Tab 2: Outgoing payments current user is the debtor, already paid
         $outgoingPayments = Debt::where('user_id', $userId)
             ->where('is_paid', true)
-            ->with(['order.items.commodity', 'lunch', 'creditor'])
+            ->with(['order.items.commodity', 'lunch.participants.items', 'lunch.participants.user', 'creditor'])
             ->latest('paid_at')
             ->get();
 
         // Tab 3: Incoming payments current user is the creditor, debtor has paid
         $incomingPayments = Debt::where('creditor_id', $userId)
             ->where('is_paid', true)
-            ->with(['order.items.commodity', 'lunch', 'user'])
+            ->with(['order.items.commodity', 'lunch.participants.items', 'lunch.participants.user', 'user'])
             ->latest('paid_at')
             ->get();
 
