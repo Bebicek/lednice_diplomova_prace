@@ -129,10 +129,13 @@ class Catalog extends Component
             : null;
 
 
+        $cart = session()->get('cart', []);
+
         return view('livewire.catalog', [
             'commodities' => $commodities,
             'categories' => $categories,
             'selectedCommodity' => $selectedCommodity,
+            'cart' => $cart,
         ]);
     }
 }
