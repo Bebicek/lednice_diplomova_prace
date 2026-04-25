@@ -51,11 +51,22 @@ class LunchCreate extends Component
                 return;
             }
 
+            $missingItems = [];
             foreach ($this->participants as $i => $p) {
                 if (empty($p['items'])) {
-                    $this->addError('participants', 'Účastník "' . $p['name'] . '" nemá žádné položky.');
-                    return;
+                    $missingItems[] = $p['name'];
                 }
+            }
+
+            if (!empty($missingItems)) {
+                $names = implode(', ', $missingItems);
+                $this->addError(
+                    'participants',
+                    count($missingItems) === 1
+                        ? 'Účastník "' . $names . '" nemá žádné položky.'
+                        : 'Následující účastníci nemají žádné položky: ' . $names
+                );
+                return;
             }
         }
 
