@@ -1,6 +1,8 @@
 @php use App\Models\Debt; @endphp
 <div x-data="{
     activeTab: 'unpaid',
+    expandedDebt: null,
+    toggleDebt(id) { this.expandedDebt = this.expandedDebt === id ? null : id; },
     qrOpen: false, qrUrl: '', qrName: '', qrAmount: '', qrIban: '',
     confirmOpen: false, confirmMethod: '', confirmArgs: '', confirmAmount: '', confirmLabel: '',
     openConfirm(method, args, amount, label) {
@@ -386,24 +388,27 @@
                 </thead>
                 <tbody class="divide-y divide-gray-100 dark:divide-gray-800">
                 @forelse($unpaidDebts as $debt)
-                    <tr class="hover:bg-gray-50 dark:hover:bg-white/[0.02]">
+                    <tr @click="toggleDebt({{ $debt->id }})" class="cursor-pointer hover:bg-gray-50 dark:hover:bg-white/[0.02] transition-colors">
                         <td class="px-5 py-4 text-theme-sm text-gray-800 dark:text-white/90">
-                            @if($debt->order)
-                                <span class="flex items-center gap-1.5">
+                            <div class="flex items-center gap-2">
+                                <x-heroicon-o-chevron-right class="w-4 h-4 text-gray-400 shrink-0 transition-transform duration-200" ::class="expandedDebt === {{ $debt->id }} ? 'rotate-90' : ''" />
+                                @if($debt->order)
+                                    <span class="flex items-center gap-1.5">
                                         <x-heroicon-o-shopping-bag class="w-4 h-4 text-gray-400 shrink-0" />
                                         Objednávka #{{ $debt->order->id }}
                                     </span>
-                            @elseif($debt->lunch)
-                                <span class="flex items-center gap-1.5">
+                                @elseif($debt->lunch)
+                                    <span class="flex items-center gap-1.5">
                                         <x-heroicon-o-calendar-days class="w-4 h-4 text-gray-400 shrink-0" />
                                         Oběd: {{ $debt->lunch->restaurant_name }}
                                     </span>
-                            @else
-                                <span class="flex items-center gap-1.5">
+                                @else
+                                    <span class="flex items-center gap-1.5">
                                         <x-heroicon-o-banknotes class="w-4 h-4 text-gray-400 shrink-0" />
                                         Jiný dluh
                                     </span>
-                            @endif
+                                @endif
+                            </div>
                         </td>
                         <td class="px-5 py-4 text-theme-sm text-gray-600 dark:text-gray-400">
                             {{ $debt->creditor?->name ?? 'Lednička' }}
@@ -416,7 +421,7 @@
                         </td>
                         <td class="px-5 py-4 text-right">
                             <button
-                                @click="openConfirm(
+                                @click.stop="openConfirm(
                                     'markAsPaid',
                                     '{{ $debt->id }}',
                                     {{ json_encode(number_format($debt->amount / 100, 2, ',', ' ') . ' Kč') }},
@@ -429,6 +434,7 @@
                             </button>
                         </td>
                     </tr>
+                    @include('livewire.partials.debt-detail-row', ['debt' => $debt, 'colspan' => 5, 'expandVar' => 'expandedDebt === ' . $debt->id])
                 @empty
                     <tr>
                         <td colspan="5" class="px-5 py-12 text-center">
@@ -455,24 +461,27 @@
                 </thead>
                 <tbody class="divide-y divide-gray-100 dark:divide-gray-800">
                 @forelse($outgoingPayments as $debt)
-                    <tr class="hover:bg-gray-50 dark:hover:bg-white/[0.02]">
+                    <tr @click="toggleDebt({{ $debt->id }})" class="cursor-pointer hover:bg-gray-50 dark:hover:bg-white/[0.02] transition-colors">
                         <td class="px-5 py-4 text-theme-sm text-gray-800 dark:text-white/90">
-                            @if($debt->order)
-                                <span class="flex items-center gap-1.5">
+                            <div class="flex items-center gap-2">
+                                <x-heroicon-o-chevron-right class="w-4 h-4 text-gray-400 shrink-0 transition-transform duration-200" ::class="expandedDebt === {{ $debt->id }} ? 'rotate-90' : ''" />
+                                @if($debt->order)
+                                    <span class="flex items-center gap-1.5">
                                         <x-heroicon-o-shopping-bag class="w-4 h-4 text-gray-400 shrink-0" />
                                         Objednávka #{{ $debt->order->id }}
                                     </span>
-                            @elseif($debt->lunch)
-                                <span class="flex items-center gap-1.5">
+                                @elseif($debt->lunch)
+                                    <span class="flex items-center gap-1.5">
                                         <x-heroicon-o-calendar-days class="w-4 h-4 text-gray-400 shrink-0" />
                                         Oběd: {{ $debt->lunch->restaurant_name }}
                                     </span>
-                            @else
-                                <span class="flex items-center gap-1.5">
+                                @else
+                                    <span class="flex items-center gap-1.5">
                                         <x-heroicon-o-banknotes class="w-4 h-4 text-gray-400 shrink-0" />
                                         Jiný dluh
                                     </span>
-                            @endif
+                                @endif
+                            </div>
                         </td>
                         <td class="px-5 py-4 text-theme-sm text-gray-600 dark:text-gray-400">
                             {{ $debt->creditor?->name ?? 'Lednička' }}
@@ -484,6 +493,7 @@
                             {{ number_format($debt->amount / 100, 2, ',', ' ') }} Kč
                         </td>
                     </tr>
+                    @include('livewire.partials.debt-detail-row', ['debt' => $debt, 'colspan' => 4, 'expandVar' => 'expandedDebt === ' . $debt->id])
                 @empty
                     <tr>
                         <td colspan="4" class="px-5 py-12 text-center">
@@ -510,24 +520,27 @@
                 </thead>
                 <tbody class="divide-y divide-gray-100 dark:divide-gray-800">
                 @forelse($incomingPayments as $debt)
-                    <tr class="hover:bg-gray-50 dark:hover:bg-white/[0.02]">
+                    <tr @click="toggleDebt({{ $debt->id }})" class="cursor-pointer hover:bg-gray-50 dark:hover:bg-white/[0.02] transition-colors">
                         <td class="px-5 py-4 text-theme-sm text-gray-800 dark:text-white/90">
-                            @if($debt->order)
-                                <span class="flex items-center gap-1.5">
+                            <div class="flex items-center gap-2">
+                                <x-heroicon-o-chevron-right class="w-4 h-4 text-gray-400 shrink-0 transition-transform duration-200" ::class="expandedDebt === {{ $debt->id }} ? 'rotate-90' : ''" />
+                                @if($debt->order)
+                                    <span class="flex items-center gap-1.5">
                                         <x-heroicon-o-shopping-bag class="w-4 h-4 text-gray-400 shrink-0" />
                                         Objednávka #{{ $debt->order->id }}
                                     </span>
-                            @elseif($debt->lunch)
-                                <span class="flex items-center gap-1.5">
+                                @elseif($debt->lunch)
+                                    <span class="flex items-center gap-1.5">
                                         <x-heroicon-o-calendar-days class="w-4 h-4 text-gray-400 shrink-0" />
                                         Oběd: {{ $debt->lunch->restaurant_name }}
                                     </span>
-                            @else
-                                <span class="flex items-center gap-1.5">
+                                @else
+                                    <span class="flex items-center gap-1.5">
                                         <x-heroicon-o-banknotes class="w-4 h-4 text-gray-400 shrink-0" />
                                         Jiný dluh
                                     </span>
-                            @endif
+                                @endif
+                            </div>
                         </td>
                         <td class="px-5 py-4 text-theme-sm text-gray-600 dark:text-gray-400">
                             {{ $debt->user->name }}
@@ -539,6 +552,7 @@
                             +{{ number_format($debt->amount / 100, 2, ',', ' ') }} Kč
                         </td>
                     </tr>
+                    @include('livewire.partials.debt-detail-row', ['debt' => $debt, 'colspan' => 4, 'expandVar' => 'expandedDebt === ' . $debt->id])
                 @empty
                     <tr>
                         <td colspan="4" class="px-5 py-12 text-center">

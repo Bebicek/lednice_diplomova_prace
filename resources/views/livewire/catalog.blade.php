@@ -116,8 +116,9 @@
                 <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3 md:gap-5">
                     @forelse($commodities as $commodity)
                         @php
-                            $fridge     = $commodity->fridge_quantity;
-                            $warehouse  = $commodity->warehouse_quantity;
+                            $cartQty = $cart[$commodity->id]['quantity'] ?? 0;
+                            $fridge = $commodity->fridge_quantity - $cartQty;
+                            $warehouse = $commodity->warehouse_quantity;
                             $outOfStock = $fridge <= 0;
                         @endphp
 
@@ -199,8 +200,9 @@
                 <div class="space-y-3">
                     @forelse($commodities as $commodity)
                         @php
-                            $fridge     = $commodity->fridge_quantity;
-                            $warehouse  = $commodity->warehouse_quantity;
+                            $cartQty = $cart[$commodity->id]['quantity'] ?? 0;
+                            $fridge = $commodity->fridge_quantity - $cartQty;
+                            $warehouse = $commodity->warehouse_quantity;
                             $outOfStock = $fridge <= 0;
                         @endphp
 
@@ -288,7 +290,8 @@
     @if($selectedCommodity)
         @php
             $sc = $selectedCommodity;
-            $scFridge = $sc->fridge_quantity;
+            $scCartQty = $cart[$sc->id]['quantity'] ?? 0;
+            $scFridge = $sc->fridge_quantity - $scCartQty;
             $scWhouse = $sc->warehouse_quantity;
             $scOut = $scFridge <= 0;
         @endphp

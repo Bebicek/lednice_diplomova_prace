@@ -4,6 +4,9 @@ namespace App\Livewire;
 
 use App\Models\Debt;
 use App\Models\Setting;
+use Endroid\QrCode\Builder\Builder;
+use Endroid\QrCode\ErrorCorrectionLevel;
+use Endroid\QrCode\Writer\SvgWriter;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
 
@@ -80,6 +83,20 @@ class MyDebts extends Component
         return "SPD*1.0*ACC:{$iban}*AM:{$amount}*CC:CZK*MSG:Uhrada dluhu";
     }
 
+    /**
+     * Render a SPAYD string as an inline SVG QR code (data URI).
+     */
+    private function generateQrDataUri(string $spayd): string
+    {
+        return (new Builder(
+            writer: new SvgWriter(),
+            data: $spayd,
+            errorCorrectionLevel: ErrorCorrectionLevel::Medium,
+            size: 250,
+            margin: 10,
+        ))->build()->getDataUri();
+    }
+
     public function render()
     {
         $userId = auth()->id();
@@ -88,21 +105,21 @@ class MyDebts extends Component
         $unpaidDebts = Debt::where('user_id', $userId)
             ->where('is_paid', false)
             ->where('is_accepted', true)
-            ->with(['order.items.commodity', 'lunch', 'creditor'])
+            ->with(['order.items.commodity', 'lunch.participants.items', 'lunch.participants.user', 'creditor'])
             ->latest()
             ->get();
 
         // Tab 2: Outgoing payments current user is the debtor, already paid
         $outgoingPayments = Debt::where('user_id', $userId)
             ->where('is_paid', true)
-            ->with(['order.items.commodity', 'lunch', 'creditor'])
+            ->with(['order.items.commodity', 'lunch.participants.items', 'lunch.participants.user', 'creditor'])
             ->latest('paid_at')
             ->get();
 
         // Tab 3: Incoming payments current user is the creditor, debtor has paid
         $incomingPayments = Debt::where('creditor_id', $userId)
             ->where('is_paid', true)
-            ->with(['order.items.commodity', 'lunch', 'user'])
+            ->with(['order.items.commodity', 'lunch.participants.items', 'lunch.participants.user', 'user'])
             ->latest('paid_at')
             ->get();
 
@@ -128,14 +145,14 @@ class MyDebts extends Component
                         $iban = $this->generateCzechIban($systemBankCode, $systemBankNumber);
                         if ($iban) {
                             $spayd = $this->generateSpayd($iban, $total);
-                            $qrUrl = 'https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=' . urlencode($spayd);
+                            $qrUrl = $this->generateQrDataUri($spayd);
                         }
                     }
                 } elseif ($creditor && !empty(trim((string) $creditor->bank_number)) && !empty(trim((string) $creditor->bank_code))) {
                     $iban = $this->generateCzechIban($creditor->bank_code, $creditor->bank_number);
                     if ($iban) {
                         $spayd = $this->generateSpayd($iban, $total);
-                        $qrUrl = 'https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=' . urlencode($spayd);
+                        $qrUrl = $this->generateQrDataUri($spayd);
                     }
                 }
 
