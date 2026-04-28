@@ -142,7 +142,9 @@
                             @enderror
 
                             {{-- Add item form alpine local state --}}
-                            <div x-data="{ name: '', price: '' }" class="flex gap-2">
+                            <div x-data="{ name: '', price: '' }"
+                                 @item-added-{{ $index }}.window="name = ''; price = '';"
+                                 class="flex gap-2">
                                 <input
                                     x-model="name"
                                     type="text"
@@ -151,12 +153,11 @@
                                 <input
                                     x-model="price"
                                     type="number"
-                                    min="0"
                                     step="0.01"
                                     placeholder="Kč"
                                     class="h-9 w-24 rounded-lg border border-gray-300 bg-transparent px-3 text-theme-sm text-gray-800 placeholder:text-gray-400 focus:border-brand-300 focus:outline-none dark:border-gray-600 dark:text-white/90 dark:placeholder:text-gray-500" />
                                 <button
-                                    @click="if(name.trim() && price > 0) { $wire.addItem({{ $index }}, name.trim(), price); name = ''; price = ''; }"
+                                    @click="$wire.addItem({{ $index }}, name.trim(), price)"
                                     class="inline-flex h-9 items-center gap-1 rounded-lg border border-brand-300 px-3 text-theme-xs font-medium text-brand-600 hover:bg-brand-50 dark:border-brand-600 dark:text-brand-400 dark:hover:bg-brand-500/10 transition-colors">
                                     <x-heroicon-o-plus class="w-3.5 h-3.5" />
                                     Přidat

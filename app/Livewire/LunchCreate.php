@@ -118,8 +118,18 @@ class LunchCreate extends Component
             return;
         }
 
-        if (!is_numeric($priceKc) || (float) $priceKc <= 0) {
-            $this->addError("item_{$participantIndex}", 'Zadejte platnou cenu.');
+        if ($priceKc === '' || $priceKc === null) {
+            $this->addError("item_{$participantIndex}", 'Zadejte cenu položky.');
+            return;
+        }
+
+        if (!is_numeric($priceKc) || (float) $priceKc < 0) {
+            $this->addError("item_{$participantIndex}", 'Cena musí být kladné číslo.');
+            return;
+        }
+
+        if ((float) $priceKc === 0.0) {
+            $this->addError("item_{$participantIndex}", 'Cena musí být větší než 0 Kč.');
             return;
         }
 
@@ -131,6 +141,7 @@ class LunchCreate extends Component
         ];
 
         $this->resetErrorBag("item_{$participantIndex}");
+        $this->dispatch("item-added-{$participantIndex}");
     }
 
     public function removeItem(int $participantIndex, int $itemIndex): void
