@@ -176,8 +176,8 @@ class LunchCreate extends Component
     {
         $this->validate([
             'restaurantName' => 'required|string|max:255',
-            'deliveryCostKc' => 'numeric|min:0',
-            'splitMethod' => 'in:equal,by_price',
+            'deliveryCostKc' => 'required|numeric|min:0',
+            'splitMethod' => 'required|in:equal,by_price',
         ]);
 
         if (count($this->participants) < 2) {
