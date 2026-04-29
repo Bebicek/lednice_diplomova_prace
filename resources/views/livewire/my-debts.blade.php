@@ -45,12 +45,6 @@
         </div>
     @endif
 
-    @if(session('success'))
-        <div class="mb-4 rounded-lg bg-success-50 p-4 text-success-700 dark:bg-success-500/10 dark:text-success-400">
-            {{ session('success') }}
-        </div>
-    @endif
-
     {{-- Stats row --}}
     <div class="mb-6 grid grid-cols-1 gap-4 sm:grid-cols-3">
         {{-- Unpaid debt card --}}

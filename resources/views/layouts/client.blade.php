@@ -237,11 +237,11 @@
         @endauth
     </nav>
 
-    {{-- Flash zprávy --}}
+    {{-- Flash messages --}}
     @if(session('error'))
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4">
-            <div class="flex items-center gap-3 px-4 py-3 rounded-xl bg-error-50 border border-error-200 text-error-700 dark:bg-error-500/10 dark:border-error-500/20 dark:text-error-400 text-theme-sm">
-                <x-heroicon-o-exclamation-triangle class="w-5 h-5 shrink-0" />
+            <div class="flex items-center gap-3 px-4 py-3 rounded-xl bg-error-50 text-error-800 dark:bg-error-500/15 dark:text-error-300 text-theme-sm font-medium shadow-sm">
+                <x-heroicon-o-exclamation-triangle class="w-5 h-5 shrink-0 text-error-500" />
                 <span>{{ session('error') }}</span>
             </div>
         </div>
@@ -249,8 +249,8 @@
 
     @if(session('success'))
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4">
-            <div class="flex items-center gap-3 px-4 py-3 rounded-xl bg-success-50 border border-success-200 text-success-700 dark:bg-success-500/10 dark:border-success-500/20 dark:text-success-400 text-theme-sm">
-                <x-heroicon-o-check class="w-5 h-5 shrink-0" />
+            <div class="flex items-center gap-3 px-4 py-3 rounded-xl bg-success-100 text-success-900 dark:bg-success-500/15 dark:text-success-300 text-theme-sm font-medium shadow-sm">
+                <x-heroicon-o-check-circle class="w-5 h-5 shrink-0 text-success-600 dark:text-success-400" />
                 <span>{{ session('success') }}</span>
             </div>
         </div>
