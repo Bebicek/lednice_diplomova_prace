@@ -43,7 +43,7 @@
 
             <button @click="activeTab = 'mine'"
                     :class="activeTab === 'mine'
-                    ? 'border-b-2 border-brand-500 text-brand-500'
+                    ? 'border-b-2 border-brand-500 text-brand-500 dark:text-brand-400'
                     : 'border-b-2 border-transparent text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300'"
                     class="flex items-center gap-2 px-5 py-3.5 text-theme-sm font-medium transition-colors">
                 <x-heroicon-o-user class="w-4 h-4" />
@@ -57,7 +57,7 @@
 
             <button @click="activeTab = 'participated'"
                     :class="activeTab === 'participated'
-                    ? 'border-b-2 border-brand-500 text-brand-500'
+                    ? 'border-b-2 border-brand-500 text-brand-500 dark:text-brand-400'
                     : 'border-b-2 border-transparent text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300'"
                     class="flex items-center gap-2 px-5 py-3.5 text-theme-sm font-medium transition-colors">
                 <x-heroicon-o-users class="w-4 h-4" />
@@ -266,7 +266,7 @@
                         </div>
                         <div class="text-right shrink-0">
                             <p class="text-theme-xs text-gray-400 dark:text-gray-500">Tvůj podíl</p>
-                            <p class="text-theme-sm font-bold {{ $myDebt?->is_paid ? 'text-success-600' : 'text-error-600' }} dark:{{ $myDebt?->is_paid ? 'text-success-400' : 'text-error-400' }}">
+                            <p class="text-theme-sm font-bold {{ $myDebt?->is_paid ? 'text-success-600 dark:text-success-400' : 'text-error-600 dark:text-error-400' }}">
                                 {{ number_format(($myParticipant?->amount ?? 0) / 100, 2, ',', ' ') }} Kč
                             </p>
                         </div>
