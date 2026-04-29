@@ -59,6 +59,7 @@ class CommodityManager extends Component
         'filterCategoryId' => ['except' => null],
         'sortBy' => ['except' => 'name'],
         'sortDirection' => ['except' => 'asc'],
+        'page' => ['except' => 1],
     ];
 
     public function updatingSearch()
@@ -138,6 +139,9 @@ class CommodityManager extends Component
             $this->dispatch('toast-success', message: 'Produkt byl úspěšně aktualizován.');
         } else {
             Commodity::create($data);
+            $this->sortBy = 'created_at';
+            $this->sortDirection = 'desc';
+            $this->resetPage();
             $this->dispatch('toast-success', message: 'Produkt byl úspěšně vytvořen.');
         }
 
