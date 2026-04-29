@@ -298,9 +298,8 @@
 
         <div
             x-data="{ show: false }"
-            x-init="document.body.classList.add('overflow-hidden'); $nextTick(() => show = true)"
+            x-init="document.body.classList.add('overflow-hidden'); $nextTick(() => show = true); return () => document.body.classList.remove('overflow-hidden')"
             x-on:keydown.escape.window="$wire.closeDetail()"
-            x-on:remove="document.body.classList.remove('overflow-hidden')"
             class="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4"
         >
             {{-- Backdrop --}}
