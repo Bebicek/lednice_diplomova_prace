@@ -56,19 +56,16 @@ class ExpiryManager extends Component
 
     public function render()
     {
-        $allFridgeStock = Stock::with(['commodity.category'])
-            ->where('location', 'fridge')
-            ->get();
+        $allStock = Stock::with(['commodity.category'])->get();
 
         $stats = [
-            'expired' => $allFridgeStock->filter(fn ($s) => $s->expiry_status === 'expired')->count(),
-            'critical' => $allFridgeStock->filter(fn ($s) => $s->expiry_status === 'critical')->count(),
-            'warning' => $allFridgeStock->filter(fn ($s) => $s->expiry_status === 'warning')->count(),
-            'none' => $allFridgeStock->filter(fn ($s) => $s->expires_at === null)->count(),
+            'expired' => $allStock->filter(fn ($s) => $s->expiry_status === 'expired')->count(),
+            'critical' => $allStock->filter(fn ($s) => $s->expiry_status === 'critical')->count(),
+            'warning' => $allStock->filter(fn ($s) => $s->expiry_status === 'warning')->count(),
+            'none' => $allStock->filter(fn ($s) => $s->expires_at === null)->count(),
         ];
 
         $stocks = Stock::with(['commodity.category'])
-            ->where('location', 'fridge')
             ->when($this->filterStatus !== 'all', function ($q) {
                 match ($this->filterStatus) {
                     'expired' => $q->whereNotNull('expires_at')->whereDate('expires_at', '<', today()),

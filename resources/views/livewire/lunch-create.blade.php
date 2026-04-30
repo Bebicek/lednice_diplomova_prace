@@ -142,7 +142,9 @@
                             @enderror
 
                             {{-- Add item form alpine local state --}}
-                            <div x-data="{ name: '', price: '' }" class="flex gap-2">
+                            <div x-data="{ name: '', price: '' }"
+                                 @item-added-{{ $index }}.window="name = ''; price = '';"
+                                 class="flex gap-2">
                                 <input
                                     x-model="name"
                                     type="text"
@@ -151,12 +153,11 @@
                                 <input
                                     x-model="price"
                                     type="number"
-                                    min="0"
                                     step="0.01"
                                     placeholder="Kč"
                                     class="h-9 w-24 rounded-lg border border-gray-300 bg-transparent px-3 text-theme-sm text-gray-800 placeholder:text-gray-400 focus:border-brand-300 focus:outline-none dark:border-gray-600 dark:text-white/90 dark:placeholder:text-gray-500" />
                                 <button
-                                    @click="if(name.trim() && price > 0) { $wire.addItem({{ $index }}, name.trim(), price); name = ''; price = ''; }"
+                                    @click="$wire.addItem({{ $index }}, name.trim(), price)"
                                     class="inline-flex h-9 items-center gap-1 rounded-lg border border-brand-300 px-3 text-theme-xs font-medium text-brand-600 hover:bg-brand-50 dark:border-brand-600 dark:text-brand-400 dark:hover:bg-brand-500/10 transition-colors">
                                     <x-heroicon-o-plus class="w-3.5 h-3.5" />
                                     Přidat
@@ -208,18 +209,21 @@
                 {{-- Delivery cost --}}
                 <div>
                     <label class="mb-1.5 block text-theme-sm font-medium text-gray-700 dark:text-gray-300">
-                        Cena dopravy (Kč)
+                        Cena dopravy (Kč) <span class="text-error-500">*</span>
                     </label>
                     <input type="number" wire:model.live="deliveryCostKc" min="0" step="0.01"
                            placeholder="0"
-                           class="h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 text-theme-sm text-gray-800 placeholder:text-gray-400 focus:border-brand-300 focus:outline-none focus:ring-3 focus:ring-brand-500/10 dark:border-gray-700 dark:text-white/90 dark:placeholder:text-gray-500 dark:focus:border-brand-800" />
+                           class="h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 text-theme-sm text-gray-800 placeholder:text-gray-400 focus:border-brand-300 focus:outline-none focus:ring-3 focus:ring-brand-500/10 dark:border-gray-700 dark:text-white/90 dark:placeholder:text-gray-500 dark:focus:border-brand-800 @error('deliveryCostKc') border-error-300 dark:border-error-600 @enderror" />
                     <p class="mt-1 text-theme-xs text-gray-400">Rozdělí se rovnoměrně mezi všechny</p>
+                    @error('deliveryCostKc')
+                    <p class="mt-1 text-theme-xs text-error-500">{{ $message }}</p>
+                    @enderror
                 </div>
 
                 {{-- Split method --}}
                 <div>
                     <label class="mb-1.5 block text-theme-sm font-medium text-gray-700 dark:text-gray-300">
-                        Způsob dělení ceny
+                        Způsob dělení ceny <span class="text-error-500">*</span>
                     </label>
                     <div class="flex flex-col gap-2 pt-1">
                         <label class="flex cursor-pointer items-center gap-3">
@@ -239,6 +243,9 @@
                             </span>
                         </label>
                     </div>
+                    @error('splitMethod')
+                    <p class="mt-1 text-theme-xs text-error-500">{{ $message }}</p>
+                    @enderror
                 </div>
             </div>
 

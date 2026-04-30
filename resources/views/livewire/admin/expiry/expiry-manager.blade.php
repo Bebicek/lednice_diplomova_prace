@@ -15,7 +15,7 @@
         {{-- Table header --}}
         <div class="flex items-center justify-between px-5 py-4 border-b border-gray-100 dark:border-gray-800 md:px-6">
             <div>
-                <h3 class="text-base font-semibold text-gray-800 dark:text-white/90">Přehled dat spotřeby v lednici</h3>
+                <h3 class="text-base font-semibold text-gray-800 dark:text-white/90">Přehled dat spotřeby</h3>
                 <p class="mt-0.5 text-xs text-gray-400 dark:text-gray-500">Seřazeno dle data spotřeby</p>
             </div>
 
@@ -41,7 +41,8 @@
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400">Datum spotřeby</th>
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400">Zbývá</th>
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400">Stav</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400">Ks v lednici</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400">Lokace</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400">Množství</th>
                     <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400">Akce</th>
                 </tr>
                 </thead>
@@ -124,7 +125,20 @@
                             @endif
                         </td>
 
-                        {{-- Fridge qty --}}
+                        {{-- Location --}}
+                        <td class="px-6 py-3.5 whitespace-nowrap">
+                            @if($stock->location === 'fridge')
+                                <span class="inline-flex items-center gap-1 rounded-full bg-brand-50 px-2 py-0.5 text-xs font-medium text-brand-700 dark:bg-brand-500/15 dark:text-brand-400">
+                                    Lednice
+                                </span>
+                            @else
+                                <span class="inline-flex items-center gap-1 rounded-full bg-gray-100 px-2 py-0.5 text-xs font-medium text-gray-600 dark:bg-gray-700 dark:text-gray-300">
+                                    Sklad
+                                </span>
+                            @endif
+                        </td>
+
+                        {{-- Qty --}}
                         <td class="px-6 py-3.5 whitespace-nowrap">
                             <span class="text-sm font-medium
                                 {{ $stock->quantity <= 0 ? 'text-error-500' : 'text-gray-700 dark:text-gray-300' }}">
@@ -153,7 +167,7 @@
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="7" class="px-6 py-12 text-center">
+                        <td colspan="8" class="px-6 py-12 text-center">
                             <x-heroicon-o-check-circle class="w-10 h-10 text-gray-300 dark:text-gray-600 mx-auto mb-2" />
                             <p class="text-sm text-gray-500 dark:text-gray-400">Žádné produkty neodpovídají filtru</p>
                         </td>

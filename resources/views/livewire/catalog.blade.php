@@ -1,14 +1,20 @@
 <div wire:poll.5s="$refresh">
 
     @if(session('success'))
-        <div class="mb-4 rounded-lg bg-success-50 p-4 text-success-700 dark:bg-success-500/10 dark:text-success-400">
-            {{ session('success') }}
+        <div class="mb-4">
+            <div class="flex items-center gap-3 px-4 py-3 rounded-xl border-l-4 border-success-500 bg-success-100 text-success-900 dark:bg-success-500/15 dark:text-success-300 text-theme-sm font-medium shadow-sm">
+                <x-heroicon-o-check-circle class="w-5 h-5 shrink-0 text-success-600 dark:text-success-400" />
+                <span>{{ session('success') }}</span>
+            </div>
         </div>
     @endif
 
     @if(session('error'))
-        <div class="mb-4 rounded-lg bg-error-50 p-4 text-error-700 dark:bg-error-500/10 dark:text-error-400">
-            {{ session('error') }}
+        <div class="mb-4">
+            <div class="flex items-center gap-3 px-4 py-3 rounded-xl border-l-4 border-error-500 bg-error-50 text-error-800 dark:bg-error-500/15 dark:text-error-300 text-theme-sm font-medium shadow-sm">
+                <x-heroicon-o-exclamation-triangle class="w-5 h-5 shrink-0 text-error-500" />
+                <span>{{ session('error') }}</span>
+            </div>
         </div>
     @endif
 
@@ -298,9 +304,8 @@
 
         <div
             x-data="{ show: false }"
-            x-init="document.body.classList.add('overflow-hidden'); $nextTick(() => show = true)"
+            x-init="document.body.classList.add('overflow-hidden'); $nextTick(() => show = true); return () => document.body.classList.remove('overflow-hidden')"
             x-on:keydown.escape.window="$wire.closeDetail()"
-            x-on:remove="document.body.classList.remove('overflow-hidden')"
             class="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4"
         >
             {{-- Backdrop --}}
